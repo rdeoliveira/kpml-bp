@@ -1,0 +1,42 @@
+
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>Semantic specification for example: EX03</title>
+</head><P><font size=+2><B>EX03</B></font><p><P><PRE>
+(EXAMPLE
+     :NAME                   EX03
+     :GENERATEDFORM          "Curitiba está a 930 metros acima de o nível do mar"
+     :GLOSS                  ( :ENGLISH
+                               "Curitiba is 930 meters above sea level")
+     :TARGETFORM             "Curitiba está a 930 metros acima de o nível do mar"
+     :LOGICALFORM
+     (SPL / |space#SpatialLocating|
+          :|processInConfiguration|
+          (PIC / |Process|
+               :LEX BE-TEMPORARY )
+
+          :|space#locatum|
+          (LOC / |NamedObject|
+               :LEX CURITIBA )
+
+          :|space#placement|
+          (PLC / |space#GeneralizedLocation|
+               :|space#hasSpatialModality|
+               (MOD / |space#AboveProjectionExternal|
+                    :LEX ABOVE
+                    :|hasModification|
+                    (MDF / |space#QuantitativeSpatialTemporal|
+                         :LEX METERS
+                         :QUANTITY
+                         (QNT / |NaturalNumber|
+                              :LEX NUMBER-930 )
+                         )
+                    )
+
+               :|space#relatum|
+               (REL / |SimpleThing|
+                    :LEX SEALEVEL )
+               )
+          )
+     :SET-NAME               |curitiba|
+     )</PRE><P><font size=-1><I><A HREF="index.html">Return to index.</A></I></font>
+</body></html>

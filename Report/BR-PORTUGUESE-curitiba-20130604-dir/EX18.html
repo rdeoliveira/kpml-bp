@@ -1,0 +1,26 @@
+
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>Semantic specification for example: EX18</title>
+</head><P><font size=+2><B>EX18</B></font><p><P><PRE>
+(EXAMPLE
+     :NAME                   EX18
+     :GENERATEDFORM          "A rua ao redor de a praça"
+     :GLOSS                  ( :ENGLISH "The street around the square")
+     :TARGETFORM             "A rua ao redor de a praça"
+     :LOGICALFORM
+     (SPL / |SimpleThing|
+          :LEX STREET
+          :|circumstanceInConfiguration|
+          (CIC / |space#GeneralizedLocation|
+               :|space#relatum|
+               (REL / |SimpleThing|
+                    :LEX SQUARE )
+
+               :|space#hasSpatialModality|
+               (MOD / |space#Surrounding|
+                    :LEX AROUND )
+               )
+          )
+     :SET-NAME               |curitiba|
+     )</PRE><P><font size=-1><I><A HREF="index.html">Return to index.</A></I></font>
+</body></html>

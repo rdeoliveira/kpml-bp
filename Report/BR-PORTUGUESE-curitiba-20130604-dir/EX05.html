@@ -1,0 +1,32 @@
+
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>Semantic specification for example: EX05</title>
+</head><P><font size=+2><B>EX05</B></font><p><P><PRE>
+(EXAMPLE
+     :NAME                   EX05
+     :GENERATEDFORM          "Os moradores atravessar a cidade"
+     :GLOSS                  ( :ENGLISH "The dwellers traverse the city")
+     :TARGETFORM             "Os moradores atravessar a cidade"
+     :LOGICALFORM
+     (SPL / |space#NonAffectingDirectedMotion|
+          :|processInConfiguration|
+          (PIC / |Process|
+               :LEX TRAVERSE-INFINITIVE )
+
+          :|actor|
+          (ATO / |NamedObject|
+               :LEX THE-DWELLERS )
+
+          :|space#route|
+          (ROU / |space#GeneralizedRoute|
+               :|space#pathPlacement|
+               (PAP / |space#GeneralizedLocation|
+                    :|space#relatum|
+                    (REL / |SimpleThing|
+                         :LEX CITY )
+                    )
+               )
+          )
+     :SET-NAME               |curitiba|
+     )</PRE><P><font size=-1><I><A HREF="index.html">Return to index.</A></I></font>
+</body></html>

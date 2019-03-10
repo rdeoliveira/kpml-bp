@@ -1,0 +1,36 @@
+
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>Semantic specification for example: EX15</title>
+</head><P><font size=+2><B>EX15</B></font><p><P><PRE>
+(EXAMPLE
+     :NAME                   EX15
+     :GENERATEDFORM          "Leva o passageiro a o aeroporto"
+     :GLOSS                  ( :ENGLISH "It takes the passenger to the airport")
+     :TARGETFORM             "Leva o passageiro a o aeroporto"
+     :LOGICALFORM
+     (SPL / |space#AffectingDirectedMotion|
+          :|processInConfiguration|
+          (PIC / |Process|
+               :LEX TAKE-2-3-S )
+
+          :|actee|
+          (ACE / |SimpleThing|
+               :LEX PASSENGER )
+
+          :|space#route|
+          (ROU / |space#GeneralizedRoute|
+               :|space#destination|
+               (DES / |space#GeneralizedLocation|
+                    :|space#hasSpatialModality|
+                    (MOD / |space#GeneralDirectionalNearing|
+                         :LEX TO-TEMPORARY )
+
+                    :|space#relatum|
+                    (REL / |SimpleThing|
+                         :LEX AIRPORT )
+                    )
+               )
+          )
+     :SET-NAME               |curitiba|
+     )</PRE><P><font size=-1><I><A HREF="index.html">Return to index.</A></I></font>
+</body></html>

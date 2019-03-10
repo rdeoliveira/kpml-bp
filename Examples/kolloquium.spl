@@ -1,0 +1,55 @@
+(in-package "KPML")
+
+(in-language :languages :BR-PT)
+
+(EXAMPLE
+	:TARGETFORM "eles trouxeram a receita"
+	:GLOSS "they brought the recipe"
+	:NAME SPL1
+	:LOGICALFORM
+	(MAIN / |space#AffectingMotion|
+		:|processInConfiguration| (PIC / |Process|
+			:LEX brought-3-P)
+		:|actor| (ACO / |NamedObject|
+			:LEX they)
+		:|actee| (ACE / |SimpleThing|
+			:LEX recipe)))
+(EXAMPLE
+	:TARGETFORM	"Curitiba está acima do nível do mar"
+	:GLOSS "Curitiba is above sealevel"
+	:NAME	SPL2
+	:LOGICALFORM	
+	(MAIN / |space#SpatialLocating|
+		:|processInConfiguration| (PIC / |Process|
+			:LEX be-temporary)
+		:|space#locatum| (LOC / |NamedObject|
+			:LEX curitiba)
+		:|space#placement| (PLC / |space#GeneralizedLocation|
+			:|space#hasSpatialModality| (MOD / |space#AboveProjectionExternal|
+				:lex above)
+			:|space#relatum| (REL / |GUMThing|
+				:LEX sealevel))))
+(EXAMPLE
+	:TARGETFORM	"a bandeira no topo"
+	:GLOSS "the flag on top"
+	:NAME	SPL3
+	:LOGICALFORM (MAIN / |GUMThing|
+		:|circumstanceInConfiguration| (CIC / |space#GeneralizedLocation|
+			:|space#hasSpatialModality| (MOD / |space#AboveProjectionInternal|
+				:lex at-the-top))
+		:LEX FLAG))
+(EXAMPLE
+	:TARGETFORM	"há uma construção atrás da Sociedade Garibaldi"
+	:GLOSS "there is a construction behind Garibaldi Society"
+	:NAME	SPL4
+	:LOGICALFORM (MAIN / |Existence|
+		:|existent| (EXI / |GUMThing|
+			:IDENTIFIABILITY NOT-IDENTIFIABLE
+			:LEX CONSTRUCTION)
+		:|circumstanceInConfiguration| (CIC / |space#GeneralizedLocation|
+			:|space#hasSpatialModality|	(MOD / BACKPROJECTIONEXTERNAL
+				:lex behind)
+			:|space#relatum|	(REL / |GUMThing|
+				:LEX GARIBALDI-ASSOCIATION))
+		:|processInConfiguration| (PIC / |Process|
+			:LEX THERE-TO-BE)))

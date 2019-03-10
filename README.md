@@ -1,0 +1,1 @@
+This repo contains a copy of [KPML](http://www.fb10.uni-bremen.de/anglistik/langpro/kpml/README.html) resources (main page [here](http://www.fb10.uni-bremen.de/anglistik/langpro/kpml/genbank/generation-bank.html)) to generate spatial language in Brazilian Portuguese, as explained [here](http://www.fb10.uni-bremen.de/anglistik/langpro/kpml/genbank/portuguese/ma.thesis.rgdo.pdf).

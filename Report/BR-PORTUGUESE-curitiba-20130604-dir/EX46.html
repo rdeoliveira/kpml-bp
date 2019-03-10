@@ -1,0 +1,35 @@
+
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>Semantic specification for example: EX46</title>
+</head><P><font size=+2><B>EX46</B></font><p><P><PRE>
+(EXAMPLE
+     :NAME                   EX46
+     :GENERATEDFORM          "A mulher ficava nos fundos de o Palácio"
+     :GLOSS                  ( :ENGLISH
+                               "The woman used to hide at the back of the palace"
+                               )
+     :TARGETFORM             "A mulher ficava nos fundos de o Palácio"
+     :LOGICALFORM
+     (SPL / |space#SpatialLocating|
+          :|processInConfiguration|
+          (PIC / |Process|
+               :LEX BE-STABLE-3-S-PAST-IMPERFECTIVE )
+
+          :|space#locatum|
+          (LOC / |SimpleThing|
+               :LEX WOMAN )
+
+          :|space#placement|
+          (PLC / |space#GeneralizedLocation|
+               :|space#relatum|
+               (REL / |SimpleThing|
+                    :LEX PALACE )
+
+               :|space#hasSpatialModality|
+               (MOD / |space#BackProjectionInternal|
+                    :LEX AT-THE-BACK )
+               )
+          )
+     :SET-NAME               |curitiba|
+     )</PRE><P><font size=-1><I><A HREF="index.html">Return to index.</A></I></font>
+</body></html>

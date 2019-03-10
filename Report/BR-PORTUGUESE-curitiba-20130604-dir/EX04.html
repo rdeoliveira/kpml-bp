@@ -1,0 +1,39 @@
+
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>Semantic specification for example: EX04</title>
+</head><P><font size=+2><B>EX04</B></font><p><P><PRE>
+(EXAMPLE
+     :NAME                   EX04
+     :GENERATEDFORM          "Quem gosta deve visitar a capela"
+     :GLOSS                  ( :ENGLISH "Who likes it should visit the chapel")
+     :TARGETFORM             "Quem gosta deve visitar a capela"
+     :LOGICALFORM
+     (SPL / |space#NonAffectingDirectedMotion|
+          :|processInConfiguration|
+          (PIC / |Process|
+               :LEX SHOULD-VISIT )
+
+          :|actor|
+          (ATO / |Liking|
+               :|processInConfiguration|
+               (PIC / |Process|
+                    :LEX LIKE )
+
+               :|senser|
+               (SEN / |NamedObject|
+                    :LEX WHO )
+               )
+
+          :|space#route|
+          (ROU / |space#GeneralizedRoute|
+               :|space#destination|
+               (DES / |space#GeneralizedLocation|
+                    :|space#relatum|
+                    (REL / |SimpleThing|
+                         :LEX CHAPEL )
+                    )
+               )
+          )
+     :SET-NAME               |curitiba|
+     )</PRE><P><font size=-1><I><A HREF="index.html">Return to index.</A></I></font>
+</body></html>

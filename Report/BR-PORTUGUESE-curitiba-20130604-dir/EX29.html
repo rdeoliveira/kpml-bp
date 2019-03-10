@@ -1,0 +1,34 @@
+
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>Semantic specification for example: EX29</title>
+</head><P><font size=+2><B>EX29</B></font><p><P><PRE>
+(EXAMPLE
+     :NAME                   EX29
+     :GENERATEDFORM          "Observar a geografia de um ponto"
+     :GLOSS                  ( :ENGLISH "Observe the landscape from one spot")
+     :TARGETFORM             "Observar a geografia de um ponto"
+     :LOGICALFORM
+     (SPL / |Perception|
+          :|processInConfiguration|
+          (PIC / |Process|
+               :LEX OBSERVE )
+
+          :|phenomenon|
+          (PHE / |SimpleThing|
+               :LEX GEOGRAPHY )
+
+          :|space#spatialPerspective|
+          (SPP / |space#GeneralizedLocation|
+               :|space#relatum|
+               (REL / |SimpleThing|
+                    :LEX SPOT
+                    :IDENTIFIABILITY NOT-IDENTIFIABLE )
+
+               :|space#hasSpatialModality|
+               (MOD / |space#GeneralDirectionalDistancing|
+                    :LEX FROM )
+               )
+          )
+     :SET-NAME               |curitiba|
+     )</PRE><P><font size=-1><I><A HREF="index.html">Return to index.</A></I></font>
+</body></html>

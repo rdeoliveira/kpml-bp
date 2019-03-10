@@ -1,0 +1,33 @@
+
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>Semantic specification for example: EX58</title>
+</head><P><font size=+2><B>EX58</B></font><p><P><PRE>
+(EXAMPLE
+     :NAME                   EX58
+     :GENERATEDFORM          "Os locais estão um pouco espalhados"
+     :GLOSS                  ( :ENGLISH "The locations are a little scattered")
+     :TARGETFORM             "Os locais estão um pouco espalhados"
+     :LOGICALFORM
+     (SPL / |space#SpatialLocating|
+          :|processInConfiguration|
+          (PIC / |Process|
+               :LEX BE-TEMPORARY-P )
+
+          :|space#locatum|
+          (LOC / |NamedObject|
+               :LEX THE-LOCATIONS )
+
+          :|space#placement|
+          (PLC / |space#GeneralizedLocation|
+               :|space#hasSpatialModality|
+               (MOD / |space#Distal|
+                    :LEX SCATTERED
+                    :|hasModification|
+                    (MDF / |space#QualitativeSpatialTemporal|
+                         :LEX A-LITTLE )
+                    )
+               )
+          )
+     :SET-NAME               |curitiba|
+     )</PRE><P><font size=-1><I><A HREF="index.html">Return to index.</A></I></font>
+</body></html>

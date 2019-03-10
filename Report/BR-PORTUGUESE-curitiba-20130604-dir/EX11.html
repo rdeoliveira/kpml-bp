@@ -1,0 +1,28 @@
+
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>Semantic specification for example: EX11</title>
+</head><P><font size=+2><B>EX11</B></font><p><P><PRE>
+(EXAMPLE
+     :NAME                   EX11
+     :GENERATEDFORM          "Descer a serra"
+     :GLOSS                  ( :ENGLISH "Go down the hill")
+     :TARGETFORM             "Descer a serra"
+     :LOGICALFORM
+     (SPL / |space#NonAffectingDirectedMotion|
+          :|processInConfiguration|
+          (PIC / |Process|
+               :LEX DESCEND-INFINITIVE )
+
+          :|space#route|
+          (ROU / |space#GeneralizedRoute|
+               :|space#pathPlacement|
+               (PAP / |space#GeneralizedLocation|
+                    :|space#relatum|
+                    (REL / |SimpleThing|
+                         :LEX HILL )
+                    )
+               )
+          )
+     :SET-NAME               |curitiba|
+     )</PRE><P><font size=-1><I><A HREF="index.html">Return to index.</A></I></font>
+</body></html>

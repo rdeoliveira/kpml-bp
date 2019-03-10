@@ -1,0 +1,681 @@
+#-----------
+#determiners
+#-----------
+
+for determiner' masculine' identifiable' not-minor-process' the-m,
+	spell " o"
+
+for determiner' feminine' identifiable' not-minor-process' the-f,
+	spell " a"
+
+for determiner' masculine' not-identifiable' not-minor-process' det-a-m,
+	spell " um"
+
+for determiner' feminine' not-identifiable' not-minor-process' det-a-f,
+	spell " uma"
+
+for determiner' masculine' minor-process' de' identifiable' of-the-m,
+	spell " do"
+
+for determiner' feminine' minor-process' de' identifiable' of-the-f,
+	spell " da"
+
+for determiner' masculine' minor-process' em' identifiable' in-the-m,
+	spell " no"
+
+for determiner' feminine' minor-process' em' identifiable' in-the-f,
+	spell " na"
+
+for determiner' masculine' minor-process' por' identifiable' for-the-m,
+	spell " pelo"
+
+for determiner' feminine' minor-process' por' identifiable' for-the-f,
+	spell " pela"
+
+for determiner' masculine' minor-process' by' identifiable' by-the-m,
+	spell " ao"
+
+for determiner' feminine' minor-process' by' identifiable' in-the-f,
+	spell " à"
+
+#-----------
+#nouns
+#-----------
+
+for class' devotes,
+	spell " devotos"
+
+for class' masculine' grave,
+	spell " túmulo"
+
+for class' masculine' theater,
+	spell " teatro"
+
+for class' feminine' party,
+	spell " festa"
+
+for class' masculine' dam,
+	spell " dique"
+
+for class' masculine' excess,
+	spell " excesso"
+
+for class' friends,
+	spell " amigos"
+
+for class' feminine' wall,
+	spell " parede"
+
+for class' masculine' book,
+	spell " livro"
+
+for class' feminine' shelf,
+	spell " estante"
+
+for class' masculine' dog,
+	spell " cachorro"
+
+for class' masculine' word-ending,
+	spell " final de palavras"
+
+for class' feminine' her-house,
+	spell " casa dela"
+
+for class' feminine' right,
+	spell " direita"
+
+for class' feminine' waterfall,
+	spell " queda d'água"
+
+for class' kiosks,
+	spell " barracas"
+
+for class' feminine' track,
+	spell " trilha"
+
+for class' feminine' child,
+	spell " criança"
+
+for class' masculine' airport,
+	spell " aeroporto"
+
+for class' touristic-spots,
+	spell " pontos turísticos"
+
+for class' masculine' mini-bus,
+	spell " microônibus"
+
+for class' masculine' tourist,
+	spell " turista"
+
+for class' feminine' bridge,
+	spell " ponte"
+
+for class' feminine' candy-shop,
+	spell " confeitaria"
+
+for class' feminine' beach,
+	spell " praia"
+
+for class' galeries,
+	spell " galerias"
+
+for class' hotels,
+	spell " hotéis"
+
+for class' masculine' guide,
+	spell " guia"
+
+for class' feminine' garbage-bin,
+	spell " lixeira"
+
+for class' masculine' letter-E,
+	spell " E"
+
+for class' words,
+	spell " palavras"
+
+for class' curitibans,
+	spell " curitibanos"
+
+for class' masculine' el-nino,
+	spell " El Niño"
+
+for class' feminine' house,
+	spell " casa"
+
+for class' masculine' poem,
+	spell " poema"
+
+for class' masculine' taxi,
+	spell " táxi"
+
+for class' masculine' pocket,
+	spell " bolso"
+
+for class' masculine' paper,
+	spell " papel"
+
+for class' masculine' bathroom,
+	spell " banheiro"
+
+for class' masculine' lake,
+	spell " lago"
+
+for class' feminine' edge,
+	spell " beira"
+
+for class' feminine' avenue,
+	spell " avenida"
+
+for class' feminine' nature,
+	spell " natureza"
+
+for class' feminine' proximity,
+	spell " proximidade"
+
+for class' masculine' culture-house,
+	spell " Espaço Cultural"
+
+for class' feminine' sculptures,
+	spell " esculturas"
+
+for class' thing,
+	spell " X"
+
+for class' feminine' flag,
+	spell " bandeira"
+
+for class' feminine' church,
+	spell " igreja"
+
+for class' curitiba,
+	spell " Curitiba"
+
+for class' masculine' seaLevel,
+	spell " nível do mar"
+
+for class' feminine' garibaldi-association,
+	spell " Sociedade Garibaldi"
+
+for class' feminine' woman,
+	spell " mulher"
+
+for class' masculine' government-palace,
+	spell " Palácio do Governo"
+
+for class' feminine' accordion,
+	spell " sanfona"
+
+for class' feminine' bj-201-street,
+	spell " Rua Bom Jesus 201"
+
+for class' feminine' as-street,
+	spell " Augusto Stresser"
+
+for class' feminine' street,
+	spell " rua"
+
+for class' masculine' resident,
+	spell " morador"
+
+for class' masculine' shopping-mile,
+	spell " calçadão"
+
+for class' feminine' shop,
+	spell " loja"
+
+for class' masculine' fan,
+	spell " ventilador"
+
+for class' feminine' pedestrians-zone,
+	spell " zona de pedestres"
+
+for class' feminine' boca-maldita,
+	spell " Boca Maldita"
+
+for class' feminine' sa-square,
+	spell " Praça Santos Andrade"
+
+for class' feminine' square,
+	spell " praça"
+
+for class' masculine' neighborhood,
+	spell " bairro"
+
+for class' feminine' city,
+	spell " cidade"
+
+for class' morretes,
+	spell " Morretes"
+
+for class' masculine' nh-river,
+	spell " Rio Nhundiaquara"
+
+for class' masculine' mall,
+	spell " Shopping"
+
+for class' masculine' place,
+	spell " lugar"
+
+for class' feminine' route,
+	spell " rota"
+
+for class' feminine' farm,
+	spell " fazenda"
+
+for class' masculine' market,
+	spell " mercado"
+
+for class' masculine' palace,
+	spell " Palácio"
+
+for class' masculine' veneto,
+	spell " Vêneto"
+
+for class' feminine' italy,
+	spell " Itália"
+
+for class' feminine' facet,
+	spell " faceta"
+
+for class' feminine' capital,
+	spell " capital"
+
+for class' feminine' jogging-lane,
+	spell " pista de cooper"
+
+for class' masculine' woods,
+	spell " bosque"
+
+for class' masculine' city-spots,
+	spell " pontos da cidade"
+
+for class' feminine' stop,
+	spell " parada"
+
+for class' masculine' bar,
+	spell " bar"
+
+for class' masculine' bar-plural,
+	spell " bares"
+
+for class' masculine' plate-plural,
+	spell " pratos"
+
+for class' masculine' plate,
+	spell " prato"
+
+for class' feminine' table,
+	spell " mesa"
+
+for class' masculine' mural,
+	spell " mural"
+
+for class' feminine' façade,
+	spell " fachada"
+
+for class' feminine' gallery,
+	spell " galeria"
+
+for class' masculine' glass,
+	spell " vidro"
+
+for class' masculine' floor,
+	spell " piso"
+
+for class' masculine' umbrella,
+	spell " guarda-chuva"
+
+for class' feminine' bag,
+	spell " bolsa"
+
+for class' feminine' construction,
+	spell " construção"
+
+for class' masculine' tram,
+	spell " bondinho"
+
+for class' masculine' trolleys,
+	spell " carrinhos"
+
+for class' masculine' visitors,
+	spell " visitantes"
+
+for class' feminine' grills,
+	spell " churrasqueiras"
+
+for class' masculine' pastel,
+	spell " pastel"
+
+for class' masculine' cream-cheese,
+	spell " requeijão"
+
+for class' feminine' entrance,
+	spell " entrada"
+
+for class' feminine' hill,
+	spell " serra"
+
+for class' feminine' road,
+	spell " estrada"
+
+for class' feminine' recipe,
+	spell " receita"
+
+#-----------
+#pronouns
+#-----------
+
+for he,
+	spell " ele"
+
+for she,
+	spell " ela"
+
+for one,
+	spell " um"
+
+for masculine' other,
+	spell " outro"
+
+for they,
+	spell " eles"
+
+for all,
+	spell " todos"
+
+for who,
+	spell " quem"
+
+for you,
+	spell " você"
+
+for speaker,
+	spell " eu"
+
+for something,
+	spell " algo"
+
+for where,
+	spell " onde"
+
+#-----------
+#mathematics
+#-----------
+
+for number-930,
+	spell " 930"
+
+for meters,
+	spell " metros"
+
+for word-4,
+	spell " quatro"
+
+for blocks,
+	spell " quadras"
+
+#-----------
+#minor-process
+#-----------
+
+for minor-process' to,
+	spell " para"
+
+for minor-process' around,
+	spell " ao redor"
+
+for minor-process' above,
+	spell " acima"
+
+for minor-process' at-the-top,
+	spell " no topo"
+
+for minor-process' behind,
+	spell " atrás"
+
+for minor-process' at-the-back,
+	spell " nos fundos"
+
+for minor-process' in-the-middle,
+	spell " no meio"
+
+for minor-process' corner,
+	spell ", esquina"
+
+for minor-process' neighbor,
+	spell " vizinho"
+
+for minor-process' em' not-determiner' in,
+	spell " em"
+
+for minor-process' reflected,
+	spell " refletida"
+
+for minor-process' stuffed,
+	spell " recheado"
+
+for minor-process' out,
+	spell " fora"
+
+for minor-process' scattered,
+	spell " espalhado"
+
+for minor-process' appart-plural,
+	spell " separados"
+
+for minor-process' between,
+	spell " entre"
+
+for minor-process' in-front,
+	spell " em frente"
+
+for minor-process' in-the-north,
+	spell " no norte"
+
+for minor-process' de' not-determiner' of,
+	spell " de"
+
+for minor-process' along,
+	spell " ao longo"
+
+for minor-process' close,
+	spell " perto"
+
+for minor-process' quantified-until,
+	spell " X [unity] até"
+
+for minor-process' beside,
+	spell " ao lado"
+
+for minor-process' not-determiner' by' by,
+	spell " a"
+
+for minor-process' covered,
+	spell " coberto"
+
+for minor-process' with,
+	spell " com"
+
+for minor-process' without,
+	spell " sem"
+
+for minor-process' por' not-determiner' for,
+	spell " por"
+
+for minor-process' until,
+	spell " até"
+
+for minor-process' at-side,
+	spell " do lado"
+
+#-----------
+#verbs
+#-----------
+
+for process' reunite,
+	spell " reune"
+
+for process' attract,
+	spell " atrai"
+
+for process' drain,
+	spell " escoa"
+
+for process' receive-plural,
+	spell " recebem"
+
+for process' grab,
+	spell " pego"
+
+for process' land,
+	spell " pousa"
+
+for process' turn,
+	spell " vira"
+
+for process' install,
+	spell " instala"
+
+for process' follow,
+	spell " segue"
+
+for process' cross,
+	spell " cruza"
+
+for process' traverse,
+	spell " atravessa"
+
+for process' shuttle,
+	spell " circula"
+
+for process' pass,
+	spell " passa"
+
+for process' visit,
+	spell " visita"
+
+for process' stop-verb,
+	spell " para"
+
+for process' distribute,
+	spell " distribui"
+
+for process' add-plural,
+	spell " adicionam"
+
+for process' arrive,
+	spell " chega"
+
+for process' leave,
+	spell " sai"
+
+for process' throw,
+	spell " joga"
+
+for process' dive,
+	spell " mergulha"
+
+for process' enter,
+	spell " entra"
+
+for process' store,
+	spell " guarda"
+
+for process' see,
+	spell " vê"
+
+for process' be-temporary,
+	spell " está"
+#		in third-person-singular-form`
+
+for process' be-constant,
+	spell " é"
+
+for process' ficar,
+	spell " fica"
+
+for process' ficar-plural,
+	spell " ficam"
+
+for process' come,
+	spell " vem"
+
+for process' begin,
+	spell " começa"
+
+for process' end,
+	spell " termina"
+
+for process' live,
+	spell " mora"
+	
+for process' fit,
+	spell " cabe"
+
+for process' there-to-be,
+	spell " há"
+
+for process' find,
+	spell " encontra"
+
+for process' use-plural,
+	spell " usam"
+
+for process' do,
+	spell " faz"
+
+for process' go,
+	spell " vai"
+
+for process' is-called,
+	spell " se chama"
+
+for process' go-down,
+	spell " desce"
+
+for process' wander,
+	spell " passeia"
+
+for process' stroll,
+	spell " caminha"
+
+for process' bring,
+	spell " traz"
+
+#-----------
+#adverbs
+#-----------
+
+for general-there,
+	spell " ali"
+
+for speaker-there,
+	spell " aí"
+
+for speaker-here,
+	spell " aqui"
+
+for somewhat,
+	spell " um pouco"
+
+for much,
+	spell " muito"
+
+for well,
+	spell " bem"
+
+#-----------
+#adjective
+#-----------
+
+for beautiful,
+	spell " bonito"
+
+#-----------
+#conjunction
+#-----------
+
+for and,
+	spell " e"

@@ -1,0 +1,28 @@
+
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>Semantic specification for example: EX07</title>
+</head><P><font size=+2><B>EX07</B></font><p><P><PRE>
+(EXAMPLE
+     :NAME                   EX07
+     :GENERATEDFORM          "Virando à direita"
+     :GLOSS                  ( :ENGLISH "Turning right")
+     :TARGETFORM             "Virando à direita"
+     :LOGICALFORM
+     (SPL / |space#NonAffectingOrientationChange|
+          :|processInConfiguration|
+          (PIC / |Process|
+               :LEX TURN-PRESENT-PARTICIPLE )
+
+          :|space#route|
+          (ROU / |space#GeneralizedRoute|
+               :|space#orientationDirection|
+               (ORD / |space#GeneralizedLocation|
+                    :|space#hasSpatialModality|
+                    (MOD / |space#RightProjection|
+                         :LEX TO-THE-RIGHT )
+                    )
+               )
+          )
+     :SET-NAME               |curitiba|
+     )</PRE><P><font size=-1><I><A HREF="index.html">Return to index.</A></I></font>
+</body></html>

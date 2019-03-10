@@ -1,0 +1,29 @@
+
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>Semantic specification for example: EX24</title>
+</head><P><font size=+2><B>EX24</B></font><p><P><PRE>
+(EXAMPLE
+     :NAME                   EX24
+     :GENERATEDFORM          "A igreja divide espaço com a Casa"
+     :GLOSS                  ( :ENGLISH "The church shares space with House")
+     :TARGETFORM             "A igreja divide espaço com a Casa"
+     :LOGICALFORM
+     (SPL / |space#SpatialLocating|
+          :|space#locatum|
+          (LOC / |SimpleThing|
+               :LEX CHURCH )
+
+          :|processInConfiguration|
+          (PIC / |Process|
+               :LEX SHARE-SPACE-WITH )
+
+          :|space#placement|
+          (PLC / |space#GeneralizedLocation|
+               :|space#relatum|
+               (REL / |SimpleThing|
+                    :LEX HOUSE )
+               )
+          )
+     :SET-NAME               |curitiba|
+     )</PRE><P><font size=-1><I><A HREF="index.html">Return to index.</A></I></font>
+</body></html>

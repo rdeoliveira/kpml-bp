@@ -1,0 +1,36 @@
+
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>Semantic specification for example: EX34</title>
+</head><P><font size=+2><B>EX34</B></font><p><P><PRE>
+(EXAMPLE
+     :NAME                   EX34
+     :GENERATEDFORM          "Ela entra em taxis"
+     :GLOSS                  ( :ENGLISH "She enters taxis")
+     :TARGETFORM             "Ela entra em taxis"
+     :LOGICALFORM
+     (SPL / |space#NonAffectingDirectedMotion|
+          :|processInConfiguration|
+          (PIC / |Process|
+               :LEX ENTER )
+
+          :|actor|
+          (ACO / |NamedObject|
+               :LEX SHE )
+
+          :|space#route|
+          (ROU / |space#GeneralizedRoute|
+               :|space#destination|
+               (DES / |space#GeneralizedLocation|
+                    :|space#relatum|
+                    (REL / |NamedObject|
+                         :LEX TAXIS )
+
+                    :|space#hasSpatialModality|
+                    (MOD / |space#Proximal|
+                         :LEX IN )
+                    )
+               )
+          )
+     :SET-NAME               |curitiba|
+     )</PRE><P><font size=-1><I><A HREF="index.html">Return to index.</A></I></font>
+</body></html>

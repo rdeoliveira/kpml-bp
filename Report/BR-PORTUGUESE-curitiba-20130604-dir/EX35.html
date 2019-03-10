@@ -1,0 +1,49 @@
+
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>Semantic specification for example: EX35</title>
+</head><P><font size=+2><B>EX35</B></font><p><P><PRE>
+(EXAMPLE
+     :NAME                   EX35
+     :GENERATEDFORM          "Você passa por bairro entre as paradas 3 e 4"
+     :GLOSS                  ( :ENGLISH
+                               "You will pass by/through the neighborhood between"
+                               "stops 3 and 4")
+     :TARGETFORM             "Você passa por o bairro entre as paradas 3 e 4"
+     :LOGICALFORM
+     (SPL / |space#NonAffectingDirectedMotion|
+          :|processInConfiguration|
+          (PIC / |Process|
+               :LEX PASS )
+
+          :|actor|
+          (ACO / |NamedObject|
+               :LEX YOU )
+
+          :|space#route|
+          (ROU / |space#GeneralizedRoute|
+               :|space#pathPlacement|
+               (PAP / |space#GeneralizedLocation|
+                    :|space#relatum|
+                    (REL / |SimpleThing|
+                         :LEX NEIGHBORHOOD )
+
+                    :|space#hasSpatialModality|
+                    (MOD / |space#PathRepresenting|
+                         :LEX THROUGH )
+                    )
+               )
+
+          :|circumstanceInConfiguration|
+          (CIC / |space#GeneralizedLocation|
+               :|space#relatum|
+               (REL / |NamedObject|
+                    :LEX THE-STOPS-3-4 )
+
+               :|space#hasSpatialModality|
+               (MOD / |space#Distribution|
+                    :LEX BETWEEN )
+               )
+          )
+     :SET-NAME               |curitiba|
+     )</PRE><P><font size=-1><I><A HREF="index.html">Return to index.</A></I></font>
+</body></html>

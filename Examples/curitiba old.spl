@@ -1,0 +1,585 @@
+(in-package "KPML")
+
+(in-language :languages :BR-PT)
+
+(EXAMPLE
+	:TARGETFORM "A igreja está em Curitiba."
+	:NAME SPL000
+	:LOGICALFORM
+	(MAIN / |space#SpatialLocating|
+		:|processInConfiguration| (PIC / |Process|
+			:LEX BE-TEMPORARY)
+		:|space#locatum| (LOC / |SimpleThing|
+			:LEX church)
+		:|space#placement| (PLC / |space#GeneralizedLocation|
+			:|space#hasSpatialModality| (MOD / |space#Proximal|
+				:LEX in)
+			:|space#relatum| (REL / |NamedObject|
+				:LEX curitiba))))
+(EXAMPLE
+	:TARGETFORM	"Curitiba está acima do nível do mar."
+	:NAME	SPL001
+	:LOGICALFORM	
+	(MAIN / |space#SpatialLocating|
+		:|processInConfiguration| (PIC / |Process|
+			:lex BE-TEMPORARY)
+		:|space#locatum| (LOC / |NamedObject|
+			:LEX CURITIBA)
+		:|space#placement| (PLC / |space#GeneralizedLocation|
+			; :|hasModification|	(MODIF / |space#QuantitativeDistanceExtent|
+				; :UNIT	METERS
+				; :QUANTITY	NUMBER-930
+				; )
+			:|space#hasSpatialModality| (MOD / |space#AboveProjectionExternal|
+				:lex above)
+			:|space#relatum| (REL / |GUMThing|
+				:LEX SEALEVEL))))
+(EXAMPLE
+	:TARGETFORM	"A bandeira no topo."
+	:GLOSS "the flag on top"
+	:NAME	SPL002
+	:LOGICALFORM (MAIN / |GUMThing|
+		:|circumstanceInConfiguration| (CIC / |space#GeneralizedLocation|
+			:|space#hasSpatialModality| (MOD / |space#AboveProjectionInternal|
+				:lex at-the-top))
+		:LEX FLAG))
+(EXAMPLE
+	:TARGETFORM	"Há uma construção atrás da Sociedade Garibaldi."
+	:NAME	SPL003
+	:LOGICALFORM (MAIN / |Existence|
+		:|existent| (EXI / |GUMThing|
+			:IDENTIFIABILITY NOT-IDENTIFIABLE
+			:LEX CONSTRUCTION)
+		:|circumstanceInConfiguration| (CIC / |space#GeneralizedLocation|
+			:|space#hasSpatialModality|	(MOD / BACKPROJECTIONEXTERNAL
+				:lex behind)
+			:|space#relatum|	(REL / |GUMThing|
+				:LEX GARIBALDI-ASSOCIATION))
+		:|processInConfiguration| (PIC / |Process|
+			:LEX THERE-TO-BE)))
+(EXAMPLE
+	:TARGETFORM	"a mulher está nos fundos do Palácio do Governo"
+	:NAME	SPL004
+	:LOGICALFORM	(MAIN / |space#SpatialLocating|
+		:|space#locatum|	(LOC / |GUMThing|
+			:LEX	WOMAN
+			)
+		:|space#placement|	(PLC / |space#GeneralizedLocation|
+			:|space#hasSpatialModality|	(MOD / |space#BackProjectionInternal|
+				)
+			:|space#relatum|	(REL / |GUMThing|
+				:LEX	GOVERNMENT-PALACE
+				)
+			)
+		:|processInConfiguration| (PIC / |Process|
+			:LEX	BE-TEMPORARY
+			)
+		)
+	)
+(EXAMPLE
+	:TARGETFORM	"uma sanfona no meio"
+	:NAME	SPL005
+	:LOGICALFORM	(MAIN / |GUMThing|
+		:IDENTIFIABILITY	NOT-IDENTIFIABLE
+		:|circumstanceInConfiguration|	(PLC / |space#GeneralizedLocation|
+			:|space#hasSpatialModality|	(MOD / CENTRAL
+				:lex in-the-middle)
+			)
+		:LEX	ACCORDION
+		)
+	)
+(EXAMPLE
+	:TARGETFORM	"o calçadão começa ali"
+	:NAME	SPL006
+	:LOGICALFORM	(MAIN / |space#SpatialLocating|
+		:|space#locatum|	(LOC / |GUMThing|
+			:LEX	SHOPPING-MILE
+			)
+		:|space#placement|	(PLC / |space#GeneralizedLocation|
+			:|space#hasSpatialModality|MODIFICATION	(MODIF / ACCESSIBILITY
+				:LEVEL	GENERAL-LOW
+				)
+			)
+		:|processInConfiguration| (PIC / |Process|
+			:LEX	BEGIN
+			)
+		)
+	)
+(EXAMPLE
+	:TARGETFORM	"a Rua Bom Jesus 201, esquina com a Augusto Stresser"
+	:NAME	SPL007
+	:LOGICALFORM	(MAIN / |GUMThing|
+		:|space#placement|	(PLC / |space#GeneralizedLocation|
+			:|space#hasSpatialModality|	(MOD / CONNECTION
+				:SUBTYPE	CORNER-WITH-TYPE
+				)
+			:|space#relatum|	(REL / |GUMThing|
+				:LEX	AS-STREET
+				)
+			)
+		:LEX	BJ-201-STREET
+		)
+	)
+(EXAMPLE
+	:TARGETFORM	"a zona de pedestres vai da Praça Santos Andrade até Boca Maldita"
+	:NAME	SPL008
+	:LOGICALFORM	(MAIN / |space#SpatialLocating|
+		:|space#locatum|	(LOC / |GUMThing|
+			:LEX	PEDESTRIANS-ZONE
+			)
+		:|space#placement|	(PLC / GENERALIZEDROUTE
+			:DESTINATION	(DST / |space#GeneralizedLocation|
+				:|space#relatum|	(REL2 / |GUMThing|
+					:NAME	BOCA-MALDITA
+					)
+				)
+			:SOURCE	(SRC / |space#GeneralizedLocation|
+				:|space#relatum|	(REL1 / |GUMThing|
+					:LEX	SA-SQUARE
+					)
+				)
+			)
+		:|processInConfiguration| (PIC / |Process|
+			:LEX	GO
+			)
+		)
+	)
+(EXAMPLE
+	:TARGETFORM	"o calçadão termina na Praça Santos Andrade"
+	:NAME	SPL009
+	:LOGICALFORM	(MAIN / |space#SpatialLocating|
+		:|space#locatum|	(LOC / |GUMThing|
+			:LEX	SHOPPING-MILE
+			)
+		:|space#placement|	(PLC / |space#GeneralizedLocation|
+			:|space#hasSpatialModality|	(MOD / CONNECTION
+				:SUBTYPE	END-AT-TYPE
+				)
+			:|space#relatum|	(REL / |GUMThing|
+				:LEX	SA-SQUARE
+				)
+			)
+		:|processInConfiguration| (PIC / |Process|
+			:LEX	END
+			)
+		)
+	)
+(EXAMPLE
+	:TARGETFORM	"um bairro vizinho do outro"
+	:NAME	SPL010
+	:LOGICALFORM	(MAIN / |GUMThing|
+		:IDENTIFIABILITY	NOT-IDENTIFIABLE
+		:|space#placement|	(PLC / |space#GeneralizedLocation|
+			:|space#hasSpatialModality|	(MOD / CONNECTION
+				:SUBTYPE	NEIGHBOR-OF-TYPE
+				)
+			:|space#relatum|	(REL / |GUMThing|
+				:LEX	OTHER
+				)
+			)
+		:LEX	NEIGHBORHOOD
+		)
+	)
+(EXAMPLE
+	:TARGETFORM	"o guarda-chuva cabe na bolsa"
+	:NAME	SPL011
+	:LOGICALFORM	(MAIN / |space#SpatialLocating|
+		:|space#locatum|	(LOC / |GUMThing|
+			:LEX	UMBRELLA
+			)
+		:|space#placement|	(PLC / |space#GeneralizedLocation|
+			:|space#hasSpatialModality|	(MOD / CONTAINMENT
+				:SUBTYPE	IN-TYPE
+				)
+			:|space#relatum|	(REL / |GUMThing|
+				:LEX	BAG
+				)
+			)
+		:|processInConfiguration| (PIC / |Process|
+			:LEX	FIT
+			)
+		)
+	)
+(EXAMPLE
+	:TARGETFORM	"quem mora na cidade"
+	:NAME	SPL012
+	:LOGICALFORM	(MAIN / |space#SpatialLocating|
+		:|space#locatum|	(LOC / |GUMThing|
+			:NAME	WHO
+			)
+		:|space#placement|	(PLC / |space#GeneralizedLocation|
+			:|space#hasSpatialModality|	(MOD / CONTAINMENT
+				:SUBTYPE	IN-TYPE
+				)
+			:|space#relatum|	(REL / |GUMThing|
+				:LEX	CITY
+				)
+			)
+		:|processInConfiguration| (PIC / |Process|
+			:LEX	LIVE
+			)
+		)
+	)
+(EXAMPLE
+	:TARGETFORM	"você passeia pela cidade"
+	:NAME	SPL013
+	:LOGICALFORM	(MAIN / NONAFFECTINGACTION
+		:ACTOR	(ACT / |GUMThing|
+			:NAME	YOU
+			)
+		:|space#placement|	(PLC / |space#GeneralizedLocation|
+			:|space#hasSpatialModality|	(MOD / CONTAINMENT
+				:SUBTYPE	FOR-TYPE
+				)
+			:|space#relatum|	(REL / |GUMThing|
+				:LEX	CITY
+				)
+			)
+		:|processInConfiguration| (PIC / |Process|
+			:LEX	STROLL
+			)
+		)
+	)
+(EXAMPLE
+	:TARGETFORM	"Morretes refletida no Rio Nhundiaquara"
+	:NAME	SPL015
+	:LOGICALFORM	(MAIN / |GUMThing|
+		:NAME	MORRETES
+		:|space#placement|	(PLC / |space#GeneralizedLocation|
+			:|space#hasSpatialModality|	(MOD / CONTAINMENT
+				:SUBTYPE	REFLECTED-TYPE
+				)
+			:|space#relatum|	(REL / |GUMThing|
+				:LEX	NH-RIVER
+				)
+			)
+		)
+	)
+(EXAMPLE
+	:TARGETFORM	"você faz algo fora do Shopping"
+	:NAME	SPL016
+	:LOGICALFORM	(MAIN / AFFECTINGACTION
+		:ACTOR	(ACO / |GUMThing|
+			:NAME	YOU
+			)
+		:|space#placement|	(PLC / |space#GeneralizedLocation|
+			:|space#hasSpatialModality|	(MOD / DENIALOFFUNCTIONCONTROL
+				:NULL	NULL
+				)
+			:|space#relatum|	(REL / |GUMThing|
+				:LEX	MALL
+				)
+			)
+		:|processInConfiguration| (PIC / |Process|
+			:LEX	DO
+			)
+		:ACTEE	(ACE / |GUMThing|
+			:NAME	SOME|GUMThing|
+			)
+		)
+	)
+(EXAMPLE
+	:TARGETFORM	"o lugar está um pouco espalhado"
+	:NAME	SPL018*
+	:LOGICALFORM	(MAIN / |space#SpatialLocating|
+		:|space#locatum|	(LOC / |GUMThing|
+			:LEX	PLACE
+			)
+		:|space#placement|	(PLC / |space#GeneralizedLocation|
+			:|space#hasSpatialModality|MODIFICATION	(MODIF / QUALITATIVEDISTANCEEXTENT
+				:LEX	SOMEWHAT
+				)
+			:|space#hasSpatialModality|	(MOD / DISTAL
+				:SUBTYPE	SCATTERED-TYPE
+				)
+			)
+		:|processInConfiguration| (PIC / |Process|
+			:LEX	BE-TEMPORARY
+			)
+		)
+	)
+(EXAMPLE
+	:TARGETFORM	"eles ficam separados"
+	:NAME	SPL019
+	:LOGICALFORM	(MAIN / |space#SpatialLocating|
+		:|space#locatum|	(LOC / |GUMThing|
+			:NAME	THEY
+			)
+		:|space#placement|	(PLC / |space#GeneralizedLocation|
+			:|space#hasSpatialModality|	(MOD / DISTAL
+				:SUBTYPE	APPART-TYPE
+				)
+			)
+		:|processInConfiguration| (PIC / |Process|
+			:LEX	FICAR-PLURAL
+			)
+		)
+	)
+(EXAMPLE
+	:TARGETFORM	"a rota entre a fazenda e o mercado"
+	:NAME	SPL020
+	:LOGICALFORM	(MAIN / |GUMThing|
+		:|space#placement|	(PLC / |space#GeneralizedLocation|
+			:|space#hasSpatialModality|	(MOD / DISTRIBUTION
+				:NULL	NULL
+				)
+			:|space#relatum|	(REL1 / |GUMThing|
+				:NEXT	(REL2 / |GUMThing|
+					:LEX	MARKET
+					)
+				:LEX	FARM
+				)
+			)
+		:LEX	ROUTE
+		)
+	)
+(EXAMPLE
+	:TARGETFORM	"você encontra o bondinho em frente ao Palácio"
+	:NAME	SPL021
+	:LOGICALFORM	(MAIN / PERCEPTION
+		:|space#placement|	(PLC / |space#GeneralizedLocation|
+			:|space#hasSpatialModality|	(MOD / FRONTPROJECTIONEXTERNAL
+				:NULL	NULL
+				)
+			:|space#relatum|	(REL / |GUMThing|
+				:LEX	PALACE
+				)
+			)
+		:|processInConfiguration| (PIC / |Process|
+			:LEX	FIND
+			)
+		:SENSER	(SNS / |GUMThing|
+			:NAME	YOU
+			)
+		:PHENOMENON	(PHN / |GUMThing|
+			:LEX	TRAM
+			)
+		)
+	)
+(EXAMPLE
+	:TARGETFORM	"o Vêneto no norte da Itália"
+	:NAME	SPL023
+	:LOGICALFORM	(MAIN / |GUMThing|
+		:|space#placement|	(PLC / |space#GeneralizedLocation|
+			:|space#hasSpatialModality|	(MOD / NORTHINTERNAL
+				:NULL	NULL
+				)
+			:|space#relatum|	(REL / |GUMThing|
+				:LEX	ITALY
+				)
+			)
+		:LEX	VENETO
+		)
+	)
+(EXAMPLE
+	:TARGETFORM	"a faceta da capital"
+	:NAME	SPL026
+	:LOGICALFORM	(MAIN / |GUMThing|
+		:|space#placement|	(PLC / |space#GeneralizedLocation|
+			:|space#hasSpatialModality|	(MOD / PARTHOOD
+				:SUBTYPE	OF-TYPE
+				)
+			:|space#relatum|	(REL / |GUMThing|
+				:LEX	CAPITAL
+				)
+			)
+		:LEX	FACET
+		)
+	)
+(EXAMPLE
+	:TARGETFORM	"há carrinhos ao longo da pista de cooper"
+	:NAME	SPL032
+	:LOGICALFORM	(MAIN / EXISTENCE
+		:EXISTENT	(EXI / |GUMThing|
+			:NAME	TROLLEYS
+			)
+		:|space#placement|	(PLC / |space#GeneralizedLocation|
+			:|space#hasSpatialModality|	(MOD / PROXIMAL
+				:SUBTYPE	ALONG-TYPE
+				)
+			:|space#relatum|	(REL / |GUMThing|
+				:LEX	JOGGING-LANE
+				)
+			)
+		:|processInConfiguration| (PIC / |Process|
+			:LEX	THERE-TO-BE
+			)
+		)
+	)
+(EXAMPLE
+	:TARGETFORM	"visitantes usam churrasqueiras no bosque"
+	:NAME	SPL038
+	:LOGICALFORM	(MAIN / AFFECTINGACTION
+		:ACTOR	(ATO / |GUMThing|
+			:NAME	VISITORS
+			)
+		:|space#placement|	(PLC / |space#GeneralizedLocation|
+			:|space#hasSpatialModality|	(MOD / PROXIMAL
+				:SUBTYPE	IN-TYPE
+				)
+			:|space#relatum|	(REL / |GUMThing|
+				:LEX	WOODS
+				)
+			)
+		:|processInConfiguration| (PIC / |Process|
+			:LEX	USE-PLURAL
+			)
+		:ACTEE	(ATE / |GUMThing|
+			:NAME	GRILLS
+			)
+		)
+	)
+(EXAMPLE
+	:TARGETFORM	"pontos da cidade ficam perto um do outro"
+	:NAME	SPL040
+	:LOGICALFORM	(MAIN / |space#SpatialLocating|
+		:|space#locatum|	(LOC / |GUMThing|
+			:NAME	CITY-SPOTS
+			)
+		:|space#placement|	(PLC / |space#GeneralizedLocation|
+			:|space#hasSpatialModality|MODIFICATION	(MODIF / RECIPROCAL
+				:NULL	NULL
+				)
+			:|space#hasSpatialModality|	(MOD / PROXIMAL
+				:SUBTYPE	CLOSE-TYPE
+				)
+			:|space#relatum|	(REL / |GUMThing|
+				:NULL	NULL
+				)
+			)
+		:|processInConfiguration| (PIC / |Process|
+			:LEX	FICAR-PLURAL
+			)
+		)
+	)
+(EXAMPLE
+	:TARGETFORM	"uma parada a quatro quadras do Palácio"
+	:NAME	SPL045
+	:LOGICALFORM	(MAIN / |GUMThing|
+		:IDENTIFIABILITY	NOT-IDENTIFIABLE
+		:|space#placement|	(PLC / |space#GeneralizedLocation|
+			:|space#hasSpatialModality|MODIFICATION	(MODIF / QUANTITATIVEDISTANCEEXTENT
+				:UNIT	BLOCKS
+				:QUANTITY	WORD-4
+				)
+			:|space#hasSpatialModality|	(MOD / QUANTITATIVEDISTANCE
+				:SUBTYPE	AWAY-FROM-TYPE
+				)
+			:|space#relatum|	(REL / |GUMThing|
+				:LEX	PALACE
+				)
+			)
+		:|processInConfiguration| (PIC / |Process|
+			:LEX	STOP
+			)
+		)
+	)
+(EXAMPLE
+	:TARGETFORM	"bares um ao lado do outro"
+	:NAME	SPL047
+	:LOGICALFORM	(MAIN / |GUMThing|
+		:NAME	BAR-PLURAL
+		:|space#placement|	(PLC / |space#GeneralizedLocation|
+			:|space#hasSpatialModality|MODIFICATION	(MODIF / RECIPROCAL
+				:NULL	NULL
+				)
+			:|space#hasSpatialModality|	(MOD / RELATIVENONPROJECTIONAXIAL
+				:NULL	NULL
+				)
+			:|space#relatum|	(REL / |GUMThing|
+				:NULL	NULL
+				)
+			)
+		)
+	)
+(EXAMPLE
+	:TARGETFORM	"pratos à mesa"
+	:NAME	SPL048
+	:LOGICALFORM	(MAIN / |GUMThing|
+		:NAME	PLATE-PLURAL
+		:|space#placement|	(PLC / |space#GeneralizedLocation|
+			:|space#hasSpatialModality|	(MOD / PROXIMAL
+				:SUBTYPE	BY-TYPE
+				)
+			:|space#relatum|	(REL / |GUMThing|
+				:LEX	TABLE
+				)
+			)
+		)
+	)
+(EXAMPLE
+	:TARGETFORM	"o mural na fachada"
+	:NAME	SPL050
+	:LOGICALFORM	(MAIN / |GUMThing|
+		:|space#placement|	(PLC / |space#GeneralizedLocation|
+			:|space#hasSpatialModality|	(MOD / SUPPORT
+				:SUBTYPE	IN-TYPE
+				)
+			:|space#relatum|	(REL / |GUMThing|
+				:LEX	FAÇADE
+				)
+			)
+		:LEX	MURAL
+		)
+	)
+(EXAMPLE
+	:TARGETFORM	"há uma igreja ao redor da galeria"
+	:NAME	SPL051
+	:LOGICALFORM	(MAIN / EXISTENCE
+		:EXISTENT	(EXI / |GUMThing|
+			:IDENTIFIABILITY	NOT-IDENTIFIABLE
+			:LEX	CHURCH
+			)
+		:|space#placement|	(PLC / |space#GeneralizedLocation|
+			:|space#hasSpatialModality|	(MOD / |space#Surrounding|
+				:NULL	NULL
+				)
+			:|space#relatum|	(REL / |GUMThing|
+				:LEX	GALLERY
+				)
+			)
+		:|processInConfiguration| (PIC / |Process|
+			:LEX	THERE-TO-BE
+			)
+		)
+	)
+(EXAMPLE
+	:TARGETFORM	"o Palácio é bonito por fora"
+	:NAME	SPL052
+	:LOGICALFORM	(MAIN / RELATING
+		:ATTRIBUTE	(ATT / ATTRIBUTE
+			:NAME	BEAUTIFUL
+			)
+		:ATTRIBUEND	(ATTND / |GUMThing|
+			:LEX	PALACE
+			)
+		:|space#placement|	(PLC / |space#GeneralizedLocation|
+			:|space#hasSpatialModality|MODIFICATION	(MODIF / SPATIALPERSPECTIVE
+				:NULL	NULL
+				)
+			)
+		:|processInConfiguration| (PIC / |Process|
+			:LEX	BE-CONSTANT
+			)
+		)
+	)
+(EXAMPLE
+	:TARGETFORM	"o piso é coberto por vidro"
+	:NAME	SPL053
+	:LOGICALFORM	(MAIN / |space#SpatialLocating|
+		:|space#locatum|	(LOC / |GUMThing|
+			:LEX	FLOOR
+			)
+		:|space#placement|	(PLC / |space#GeneralizedLocation|
+			:|space#hasSpatialModality|	(MOD / UNDERPROJECTIONEXTERNAL
+				:NULL	NULL
+				)
+			:|space#relatum|	(REL / |GUMThing|
+				:NAME	GLASS
+				)
+			)
+		:|processInConfiguration| (PIC / |Process|
+			:LEX	BE-CONSTANT
+			)
+		)
+	)

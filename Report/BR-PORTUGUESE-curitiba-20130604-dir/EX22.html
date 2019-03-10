@@ -1,0 +1,39 @@
+
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>Semantic specification for example: EX22</title>
+</head><P><font size=+2><B>EX22</B></font><p><P><PRE>
+(EXAMPLE
+     :NAME                   EX22
+     :GENERATEDFORM          "Você vier até aqui"
+     :GLOSS                  ( :ENGLISH "You come here")
+     :TARGETFORM             "Você vier até aqui"
+     :LOGICALFORM
+     (SPL / |space#NonAffectingDirectedMotion|
+          :|processInConfiguration|
+          (PIC / |Process|
+               :LEX COME-SUBJUNCTIVE )
+
+          :|actor|
+          (ACO / |NamedObject|
+               :LEX YOU )
+
+          :|space#route|
+          (PLC / |space#GeneralizedRoute|
+               :|space#destination|
+               (DES / |space#GeneralizedLocation|
+                    :|space#hasSpatialModality|
+                    (MOD / |space#GeneralDirectionalNearing|
+                         :LEX UNTIL
+                         :|hasModification|
+                         (MDF / |space#QualitativeDistanceExtent|
+                              :ACCESSIBILITY
+                              (ACC / |space#QualitativeDistanceExtent|
+                                   :ACCESSIBILITY-LEVEL-Q SPEAKER-HIGH )
+                              )
+                         )
+                    )
+               )
+          )
+     :SET-NAME               |curitiba|
+     )</PRE><P><font size=-1><I><A HREF="index.html">Return to index.</A></I></font>
+</body></html>

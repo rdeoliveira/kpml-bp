@@ -1,0 +1,949 @@
+(in-package "KPML")
+
+(in-language :languages :BR-PORTUGUESE)
+
+;;; Introduction
+
+;; This example file - and its corresponding grammar - is one of the outcomes
+;; of the MA thesis by Rodrigo Gomes de Oliveira at the Universität Bremen, 2013.
+;; Below are some major issues that had already been spotted during investigation
+;; and/or implementation, but since they were not the work's priority or focus,
+;; they were put aside to be treated with more care/time in the future. The comments
+;; below are divided into: (a) bugs, (b) desirable general features and (c) desirable 
+;; features concerning spatial language (the thesis's central topic).
+;; The corpus and the representative testbed are found at:
+;; https://docs.google.com/spreadsheet/ccc?key=0AjjU8ITs-OqudDE1MkZoS19IQWJ2Tks0NE5ONFhrZEE&usp=sharing
+
+;;; *** BUGS ***
+
+;; Invalid keywords: the current implementation does not recognize keywords such
+;; as "unit" or "accessibility" but does not stop generation from progressing.
+
+;; Identifiablity works, but a warning message is sent. Why?
+
+;; When a circumstance is attached to a configuration, the ontological type of its
+;; simple-thing (e.g. filling 'relatum') gets passed on other simple-things (e.g.
+;; filling 'actor'). Because
+;; determination in this grammar is currently dependent on the ontological type of
+;; simple-things, KPML generates either "The A does something at the B" or "A does 
+;; something at B", but is unable to generate "The A does something at B" or "A does
+;; something at the B". (EX32, EX35)
+
+;;; *** DESIRABLE GENERAL GRAMMAR FEATURES ***
+
+;; This file contains proper translations of sentences where the SPL expression
+;; says 'gloss'. Separate translation and gloss information is only visible at the
+;; HTML report.
+
+;; Many times, non-spatial grammatical features such as number, tense, etc,
+;; were simply not implemented; instead lexical items already include such
+;; grammatical variations, which should preferably be systemically defined
+;; in the future.
+
+;; The decision between determined or non-determined nominal groups is done via
+;; ontological choice, which is not necessarily what should be. In this grammar,
+;; determined nouns are of type
+;; simple thing, and undetermined, named object. This means that plural nouns
+;; and pronouns were initially also implemented as named objects.
+
+;; Fusion of different syntactic elements, e.g. a minor-process and a determiner,
+;; is very common in Portuguese. We spared some work on this front by
+;; generating strings with split elements, even knowing some results sound weird.
+
+;; Verb scope: things like 'do the macarena' or 'share space' are implemented as
+;; one verb; 'macarena' and 'space' are scopes of their respective verbs.
+
+;; Preposition demanded by verbal group: 'gostar' (to like) and 'dividir espaço'
+;; require a preposition before the object, which is currently implemented within
+;; the verbal lexical item.
+
+;; Complex nominal groups, e.g. using "and" are not implemented, and so such 
+;; elements exist as a single lexical item.
+
+;; Often at passive voice utterances, actees come first, but in EX49 it comes
+;; after the verb, because our implementation prioritized active voice and
+;; systems already generated in the SVO word order.
+
+;;; *** DESIRABLE SPATIAL-LANGUAGE-RELATED FEATURES ***
+
+;; Surface-level diversity of spatial modalities: some spatial modalities
+;; in the observed corpus associated with different lexical items on the surface.
+;; The diversity is provoked sometimes by ontological differences, orthographic
+;; variation, regional variation, among other reasons. When the difference was
+;; ontological, we could have expanded GUM towards more specific categories (e.g.
+;; within a lower model). However, our goal was to test GUM's coverage, not depth.
+;; Therefore, SPLs generate the precise lexical item with :LEX. It is desired that
+;; lexicalization of modalities be based purely on linguistic features, and that
+;; :LEX is no longer need. This is an important step to guarantee multilinguality.
+
+;; Embedded Semantics (as discussed in the thesis): 'A ends at B' connotes modality
+;; 'general-directional-nearing' in a path-like 'placement' of a static 
+;; configuration, namely 'spatial-locating'. This should be done more systematically
+;; than what it is now, as pointed out in the thesis. Currently, the route in 'A ends 
+;; at B' is semantically slightly different that of 'A goes to B' and very similar to
+;; 'A dives in B', although each is semantically peculiar. 'ending' connotes 'general-
+;; directional-nearing', 'diving' 'containment' and 'going' is unmarked. We chose this 
+;; solution because we aimed to implement the entire testbed firstly with what GUM 
+;; already offers and only in the future invest in more dramatic changes to the ontology.
+
+;; Dathesis: in order to implement examples 'A has B in the middle' and 'A has B on
+;; top', a dramatic change in the ontology would be needed. Thus, we chose not to include
+;; these utterances in this file, although they were commented in the thesis.
+
+;; SPL-Inexpressible embedded semantics: a 'bringing' connotes a proximal relation 
+;; between speaker and actee; 'reuniting' implies actees approach one another.
+;; This is inexpressible with in the SPL logical form, since it
+;; requires a more lexical than grammatical semantics. Since we do not wish to
+;; ignore this information in the underlying structure (i.e. the SPL expression)
+;; we will have to find a way to implement this in the future. For now, the SPL
+;; expressions that underlie "A brings B", "A reunites Bs" or "A throws B have
+;; the same elements.
+
+;; Misplaced realization of modifications: "a bit to the left of me" should become
+;; ((a bit)(to the left of))(me), where "a bit" is modifying "to the left of" but
+;; still inside the entire minor-process, and not (a bit)(to the left of)(me),
+;; where all elements are on the same level. A placement is a combination of
+;; no more than modality and relatum, thus the modification must come below
+;; modality, not beside modality and relatum. This forced implementation of a
+;; temporary fix for accessibility: accessibility enables utterances to ommit
+;; relatum and modality, and the accessibility marker becomes the only spatial
+;; grounding; to solve this, we implemented an is-accessibility-alone system
+;; that does nothing but conflate accessibility and minorprocess, thereby
+;; preventing some random realization of modality; this is still not optimal
+;; since accessibility should always modify a modality, not conflate with it.
+;; Nonetheless, the fix does the job.
+
+;; Because we chose not to actually change GUM in this project, some relations
+;; or classes in this example file are not what they should be. For example,
+;; the relation 'path' inside a 'route' should exist in GUM according to our
+;; findings. When we needed 'path' in EX35, we used 'pathPlacement' merely to
+;; be able to complete generation, even knowing such analysis is not precise.
+
+;; The thesis, based on GUM's annotation manual, uses modality 'north-internal'
+;; to describe 'in-the-north'. Such modality does not exist in the current GUM
+;; so we used the existing 'north' modality.
+
+;; Reciprocity: currently, generation duplicates strings when reciprocity is
+;; expressed in SPL by means of repeating the variable of one element as
+;; the name of another element, as in EX51. How to implement
+;; a system that checks, whether relatum==locatum and gives the
+;; proper reciprocal output? GUM's manual says reciprocity is a
+;; modification of the spatial modality; neither is there currently a class
+;; or a relation in GUM with label 'reciprocity', nor do we agree
+;; with the theory. That '100km' is a modification from 'away' in 
+;; 'A is 100km away from B' is straightforward to see.
+;; But 'one another' is a direct (anaphoric) reference to 'many
+;; spots' in EX51, that is the 'thing' filling the 'locatum'
+;; role. Most likely the same 'thing' is also filling the 'relatum'
+;; role within the placement, and so we have a full placement, i.e.
+;; modality + relatum; it's just that relatum is not a different 
+;; 'thing' than locatum, but precisely the same, which construes a
+;; reciprocal relation within the configuration;; however, the 
+;; reciprocity is achieved through 'repetition' of participants, not
+;; by modifying a spatial modality. If we assume this thought as
+;; valid, how to implement such features/systems that consider 
+;; repetition of participants and generate appropriate strings on the
+;; surface, i.e. by not duplicating strings? (EX51, EX57)
+
+;; Events such as 'visit church', 'descend hill', 'cross bridge' have all the same
+;; type of semantic embedding: the process embeds spatial modality.
+;; The way this embedding was eventually implemented is slightly different 
+;; and better than that promised in the thesis. Instead of creating 
+;; ontological subcategories of configurations, we simply did not provide 
+;; semantics for modality within this destination so a nominal group is generated,
+;; thereby avoiding more complex an unnecessary fixes to the ontology.
+
+(EXAMPLE
+	:TARGETFORM "Eles trouxeram a receita"
+	:GLOSS "They brought the recipe"
+	:NAME EX01
+	:LOGICALFORM
+	(SPL / |space#AffectingMotion|
+		:|processInConfiguration| (PIC / |Process|
+			:LEX brought-3-p) 	
+		:|actor| (ACO / |NamedObject| 
+			:LEX they)
+		:|actee| (ACE / |SimpleThing|
+			:LEX recipe)))
+(EXAMPLE
+	:TARGETFORM "A festa reúne os curitibanos"
+	:GLOSS "The fest reunites Curitibans"
+	:NAME EX02
+	:LOGICALFORM
+	(SPL / |space#AffectingMotion|
+		:|processInConfiguration| (PIC / |Process|
+			:LEX reunite)
+		:|actor| (ACO / |SimpleThing| 
+			:LEX fest)
+		:|actee| (ACE / |NamedObject|
+			:LEX the-curitibans)))
+(EXAMPLE
+	:TARGETFORM	"Curitiba está a 930 metros acima de o nível do mar"
+	:GLOSS "Curitiba is 930 meters above sea level"
+	:NAME	EX03
+	:LOGICALFORM	
+	(SPL / |space#SpatialLocating|
+		:|processInConfiguration| (PIC / |Process|
+			:LEX be-temporary)
+		:|space#locatum| (LOC / |NamedObject|
+			:LEX curitiba)
+		:|space#placement| (PLC / |space#GeneralizedLocation|
+			:|space#hasSpatialModality| (MOD / |space#AboveProjectionExternal|
+				:LEX above
+				:|hasModification| (MDF / |space#QuantitativeSpatialTemporal|
+					:LEX meters
+					:QUANTITY (QNT / |NaturalNumber|
+						:LEX number-930)))
+			:|space#relatum| (REL / |SimpleThing|
+				:LEX sealevel))))
+(EXAMPLE
+	:TARGETFORM "Quem gosta deve visitar a capela"
+	:GLOSS "Who likes it should visit the chapel"
+	:NAME EX04
+	:LOGICALFORM
+	(SPL / |space#NonAffectingDirectedMotion|
+		:|processInConfiguration| (PIC / |Process|
+			:LEX should-visit)
+		:|actor| (ATO / |Liking|
+			:|processInConfiguration| (PIC / |Process|
+				:LEX like)
+			:|senser| (SEN / |NamedObject|
+				:LEX who))
+		:|space#route| (ROU / |space#GeneralizedRoute|
+			:|space#destination| (DES / |space#GeneralizedLocation|
+				:|space#relatum| (REL / |SimpleThing|
+					:LEX chapel)))))
+(EXAMPLE
+	:TARGETFORM "Os moradores atravessar a cidade" 
+	:GLOSS "The dwellers traverse the city"
+	:NAME EX05
+	:LOGICALFORM
+	(SPL / |space#NonAffectingDirectedMotion|
+		:|processInConfiguration| (PIC / |Process|
+			:LEX traverse-infinitive)
+		:|actor| (ATO / |NamedObject|
+			:LEX the-dwellers)
+		:|space#route| (ROU / |space#GeneralizedRoute|
+			:|space#pathPlacement| (PAP / |space#GeneralizedLocation|
+				:|space#relatum| (REL / |SimpleThing|
+					:LEX city)))))
+(EXAMPLE
+	:TARGETFORM	"Fica a cinco quadras de a torre"
+	:GLOSS "It Lies five blocks away from the tower"
+	:NAME	EX06
+	:LOGICALFORM	
+	(SPL / |space#SpatialLocating|
+		:|processInConfiguration| (PIC / |Process|
+			:LEX be-stable-3-s)
+		:|space#placement| (PLC / |space#GeneralizedLocation|
+			:|space#hasSpatialModality| (MOD / |space#QuantitativeDistance|
+				:LEX from
+				:|hasModification| (MDF / |space#QuantitativeSpatialTemporal|
+					:LEX blocks
+					:QUANTITY (QNT / |NaturalNumber|
+						:LEX five)))
+			:|space#relatum| (REL / |SimpleThing|
+				:LEX tower))))
+(EXAMPLE
+	:TARGETFORM "Virando à direita"
+	:GLOSS "Turning right"
+	:NAME EX07
+	:LOGICALFORM
+	(SPL / |space#NonAffectingOrientationChange|
+		:|processInConfiguration| (PIC / |Process|
+			:LEX turn-present-participle)
+		:|space#route| (ROU / |space#GeneralizedRoute|
+			:|space#orientationDirection| (ORD / |space#GeneralizedLocation|
+				:|space#hasSpatialModality| (MOD / |space#RightProjection|
+					:LEX to-the-right)))))
+(EXAMPLE
+	:TARGETFORM "Vários pratos a a mesa"
+	:GLOSS "Several plates on the table"
+	:NAME EX08
+	:LOGICALFORM
+	(SPL / |NamedObject|
+		:LEX several-plates
+		:|circumstanceInConfiguration| (CIC / |space#GeneralizedLocation|
+			:|space#relatum| (REL / |SimpleThing|
+				:LEX table)
+			:|space#hasSpatialModality| (MOD / |space#Proximal|
+				:LEX by))))
+(EXAMPLE
+	:TARGETFORM "Quem gosta pode cruzar a ponte"
+	:GLOSS "Who likes it may cross the bridge"
+	:NAME EX09
+	:LOGICALFORM
+	(SPL / |space#NonAffectingDirectedMotion|
+		:|processInConfiguration| (PIC / |Process|
+			:LEX may-cross)
+		:|actor| (ATO / |Liking|
+			:|processInConfiguration| (PIC / |Process|
+				:LEX like)
+			:|senser| (SEN / |NamedObject|
+				:LEX who))
+		:|space#route| (ROU / |space#GeneralizedRoute|
+			:|space#pathPlacement| (PAP / |space#GeneralizedLocation|
+				:|space#relatum| (REL / |SimpleThing|
+					:LEX bridge)))))
+(EXAMPLE
+	:TARGETFORM "Proximidade com a natureza"
+	:GLOSS "The proximity with nature"
+	:NAME EX10
+	:LOGICALFORM
+	(SPL / |space#GeneralizedLocation|
+		:|space#hasSpatialModality| (MOD / |space#Proximal|
+			:LEX proximity)
+		:|space#relatum| (REL / |SimpleThing|
+			:LEX nature)))
+(EXAMPLE
+	:TARGETFORM "Descer a serra"
+	:GLOSS "Go down the hill"
+	:NAME EX11
+	:LOGICALFORM
+	(SPL / |space#NonAffectingDirectedMotion|
+		:|processInConfiguration| (PIC / |Process|
+			:LEX descend-infinitive)
+		:|space#route| (ROU / |space#GeneralizedRoute|
+			:|space#pathPlacement| (PAP / |space#GeneralizedLocation|
+				:|space#relatum| (REL / |SimpleThing|
+					:LEX hill)))))
+(EXAMPLE
+	:TARGETFORM "A criança seguir a trilha"
+	:GLOSS "The children follow the track"
+	:NAME EX12
+	:LOGICALFORM
+	(SPL / |space#NonAffectingDirectedMotion|
+		:|actor| (ACO / |SimpleThing|
+			:LEX child)
+		:|processInConfiguration| (PIC / |Process|
+			:LEX follow-infinitive)
+		:|space#route| (ROU / |space#GeneralizedRoute|
+			:|space#pathPlacement| (PAP / |space#GeneralizedLocation|
+				:|space#relatum| (REL / |SimpleThing|
+					:LEX track)))))
+(EXAMPLE
+	:TARGETFORM "O calçadão começa ali"
+	:GLOSS "The pedestrian zone begins there"
+	:NAME EX13
+	:LOGICALFORM
+	(SPL / |space#SpatialLocating|
+		:|processInConfiguration| (PIC / |Process|
+			:LEX begin)
+		:|space#locatum| (LOC / |SimpleThing| 
+			:LEX pedestrian-zone)
+		:|space#placement| (PLC / |space#GeneralizedLocation|
+			:|space#hasSpatialModality| (MOD / |space#SpatialModality|
+				:|hasModification| (MDF / |space#QualitativeDistanceExtent|
+					:accessibility (ACC / |space#QualitativeDistanceExtent|
+						:accessibility-level-q general-low))))))
+(EXAMPLE
+	:TARGETFORM "O teatro fica ali"
+	:GLOSS "The theater lies there"
+	:NAME EX14
+	:LOGICALFORM
+	(SPL / |space#SpatialLocating|
+		:|processInConfiguration| (PIC / |Process|
+			:LEX be-stable-3-s)
+		:|space#locatum| (LOC / |SimpleThing| 
+			:LEX theater)
+		:|space#placement| (PLC / |space#GeneralizedLocation|
+			:|space#hasSpatialModality| (MOD / |space#SpatialModality| 
+				:|hasModification| (MDF / |space#QualitativeDistanceExtent|
+					:accessibility (ACC / |space#QualitativeDistanceExtent|
+						:accessibility-level-q general-low))))))
+(EXAMPLE
+	:TARGETFORM "Leva o passageiro a o aeroporto"
+	:GLOSS "It takes the passenger to the airport"
+	:NAME EX15
+	:LOGICALFORM
+	(SPL / |space#AffectingDirectedMotion|
+		:|processInConfiguration| (PIC / |Process|
+			:LEX take-2-3-s)
+		:|actee| (ACE / |SimpleThing|
+			:LEX passenger)
+		:|space#route| (ROU / |space#GeneralizedRoute|
+			:|space#destination| (DES / |space#GeneralizedLocation|
+				:|space#hasSpatialModality| (MOD / |space#GeneralDirectionalNearing|
+					:LEX to-temporary)
+				:|space#relatum| (REL / |SimpleThing|
+					:LEX airport)))))
+(EXAMPLE
+	:TARGETFORM "Veja ao lado"
+	:GLOSS "See on the side"
+	:NAME EX16
+	:LOGICALFORM
+	(SPL / |Perception|
+		:|processInConfiguration| (PIC / |Process|
+			:LEX see-imperative)
+		:|circumstanceInConfiguration| (CIC / |space#GeneralizedLocation|
+			:|space#hasSpatialModality| (MOD / |space#RelativeNonProjectionAxial|
+				:LEX beside))))
+(EXAMPLE
+	:TARGETFORM	"Que foram instalados ao longo de o calçadão"
+	:GLOSS "Which were installed along the pedestrian zone"
+	:NAME	EX17
+	:LOGICALFORM	
+	(SPL / |space#SpatialLocating|
+		:|processInConfiguration| (PIC / |Process|
+			:LEX were-installed)
+		:|space#locatum| (LOC / |NamedObject|
+			:LEX which)
+		:|space#placement| (PLC / |space#GeneralizedLocation|
+			:|space#hasSpatialModality| (MOD / |space#PathRepresenting|
+				:LEX along)
+			:|space#relatum| (REL / |SimpleThing|
+				:LEX pedestrian-zone))))
+(EXAMPLE
+	:TARGETFORM "A rua ao redor de a praça"
+	:GLOSS "The street around the square"
+	:NAME EX18
+	:LOGICALFORM
+	(SPL / |SimpleThing|
+		:LEX street
+		:|circumstanceInConfiguration| (CIC / |space#GeneralizedLocation|
+			:|space#relatum| (REL / |SimpleThing|
+				:LEX square)
+			:|space#hasSpatialModality| (MOD / |space#Surrounding|
+				:LEX around))))
+(EXAMPLE
+	:TARGETFORM "Ele estará aqui"
+	:GLOSS "It will be here"
+	:NAME EX19
+	:LOGICALFORM
+	(SPL / |space#SpatialLocating|
+		:|processInConfiguration| (PIC / |Process|
+			:LEX be-temporary-future)
+		:|space#locatum| (LOC / |NamedObject|
+			:LEX it)
+		:|space#placement| (PLC / |space#GeneralizedLocation|
+			:|space#hasSpatialModality| (MOD / |space#SpatialModality| 
+				:|hasModification| (MDF / |space#QualitativeDistanceExtent|
+					:accessibility (ACC / |space#QualitativeDistanceExtent|
+						:accessibility-level-q speaker-high))))))
+(EXAMPLE
+	:TARGETFORM "Lugar aqui perto"
+	:GLOSS "Places around here"
+	:NAME EX20
+	:LOGICALFORM
+	(SPL / |NamedObject|
+		:LEX place
+		:|circumstanceInConfiguration| (CIC / |space#GeneralizedLocation|
+			:|space#hasSpatialModality| (MOD / |space#Proximal|
+				:LEX close
+				:|hasModification| (MDF / |space#QualitativeDistanceExtent|
+					:accessibility (ACC / |space#QualitativeDistanceExtent|
+						:accessibility-level-q speaker-high))))))
+(EXAMPLE
+	:TARGETFORM "Que vai até a Boca"
+	:GLOSS "That goes until Boca"
+	:NAME EX21
+	:LOGICALFORM
+	(SPL / |space#SpatialLocating|
+		:|processInConfiguration| (PIC / |Process|
+			:LEX go-3-s)
+		:|space#locatum| (LOC / |NamedObject|
+			:LEX which)
+		:|space#placement| (PLC / |space#GeneralizedRoute|
+			:|space#destination| (DES / |space#GeneralizedLocation|
+				:|space#relatum| (REL / |SimpleThing|
+					:LEX boca)
+				:|space#hasSpatialModality| (MOD / |space#GeneralDirectionalNearing|
+					:LEX until)))))
+(EXAMPLE
+	:TARGETFORM "Você vier até aqui"
+	:GLOSS "You come here"
+	:NAME EX22
+	:LOGICALFORM
+	(SPL / |space#NonAffectingDirectedMotion|
+		:|processInConfiguration| (PIC / |Process|
+			:LEX come-subjunctive)
+		:|actor| (ACO / |NamedObject|
+			:LEX you)
+		:|space#route| (PLC / |space#GeneralizedRoute|
+			:|space#destination| (DES / |space#GeneralizedLocation|
+				:|space#hasSpatialModality| (MOD / |space#GeneralDirectionalNearing|
+					:LEX until
+					:|hasModification| (MDF / |space#QualitativeDistanceExtent|
+						:accessibility (ACC / |space#QualitativeDistanceExtent|
+							:accessibility-level-q speaker-high)))))))
+(EXAMPLE
+	:TARGETFORM "Há uma construção atrás de a Sociedade Garibaldi"
+	:GLOSS "There is a construction behind Garibaldi Association"
+	:NAME EX23
+	:LOGICALFORM
+	(SPL / |Existence|
+		:|processInConfiguration| (PIC / |Process|
+			:LEX there-to-be)
+		:|existent| (EXI / |SimpleThing|
+			:LEX construction
+			:IDENTIFIABILITY not-identifiable)
+		:|circumstanceInConfiguration| (CIC / |space#GeneralizedLocation|
+			:|space#relatum| (REL / |SimpleThing|
+				:LEX garibaldi-association)
+			:|space#hasSpatialModality| (MOD / |space#BackProjectionExternal|
+				:LEX behind))))
+(EXAMPLE
+	:TARGETFORM "A igreja divide espaço com a Casa"
+	:GLOSS "The church shares space with House"
+	:NAME EX24
+	:LOGICALFORM
+	(SPL / |space#SpatialLocating|
+		:|space#locatum| (LOC / |SimpleThing| 	
+			:LEX church)
+		:|processInConfiguration| (PIC / |Process|
+			:LEX share-space-with)
+		:|space#placement| (PLC / |space#GeneralizedLocation|
+			:|space#relatum| (REL / |SimpleThing|
+				:LEX house))))
+(EXAMPLE
+	:TARGETFORM "Passear de a Boca"
+	:GLOSS "Promenade from Boca"
+	:NAME EX25
+	:LOGICALFORM
+	(SPL / |space#NonAffectingDirectedMotion|
+		:|processInConfiguration| (PIC / |Process|
+			:LEX promenade)
+		:|space#route| (ROU / |space#GeneralizedRoute|
+			:|space#source| (SOU / |space#GeneralizedLocation|
+				:|space#relatum| (REL / |SimpleThing|
+					:LEX boca)
+				:|space#hasSpatialModality| (MOD / |space#GeneralDirectionalDistancing|
+					:LEX from)))))
+(EXAMPLE
+	:TARGETFORM "Chegar de ali"
+	:GLOSS "Arrive from there"
+	:NAME EX26
+	:LOGICALFORM
+	(SPL / |space#NonAffectingDirectedMotion|
+		:|processInConfiguration| (PIC / |Process|
+			:LEX arrive)
+		:|space#route| (ROU / |space#GeneralizedRoute|
+			:|space#source| (SOU / |space#GeneralizedLocation|
+				:|space#hasSpatialModality| (MOD / |space#GeneralDirectionalDistancing|
+					:LEX from
+					:|hasModification| (MDF / |space#QualitativeDistanceExtent|
+						:accessibility (ACC / |space#QualitativeDistanceExtent|
+							:accessibility-level-q general-low)))))))
+(EXAMPLE
+	:TARGETFORM "Ir de bar em bar"
+	:GLOSS "Go from bar to bar"
+	:NAME EX27
+	:LOGICALFORM
+	(SPL / |space#NonAffectingDirectedMotion|
+		:|processInConfiguration| (PIC / |Process|
+			:LEX go-infinitive)
+		:|space#route| (ROU / |space#GeneralizedRoute|
+			:|space#destination| (DES / |space#GeneralizedLocation|
+				:|space#hasSpatialModality| (MOD / |space#GeneralDirectionalNearing|
+					:recursivity recursive)
+				:|space#relatum| (REL / |NamedObject|
+					:LEX bar)))))
+(EXAMPLE
+	:TARGETFORM "O andar de cima"
+	:GLOSS "The top floor"
+	:NAME EX28
+	:LOGICALFORM
+	(SPL / |SimpleThing|
+		:LEX floor
+		:|circumstanceInConfiguration| (CIC / |space#GeneralizedLocation|
+			:|space#hasSpatialModality| (MOD / |space#AboveProjectionInternal|
+				:LEX top-informal))))
+(EXAMPLE
+	:TARGETFORM "Observar a geografia de um ponto"
+	:GLOSS "Observe the landscape from one spot"
+	:NAME EX29
+	:LOGICALFORM
+	(SPL / |Perception|
+		:|processInConfiguration| (PIC / |Process|
+			:LEX observe)
+		:|phenomenon| (PHE / |SimpleThing|
+			:LEX geography)
+		:|space#spatialPerspective| (SPP / |space#GeneralizedLocation|
+			:|space#relatum| (REL / |SimpleThing|
+					:LEX spot
+					:IDENTIFIABILITY not-identifiable)
+				:|space#hasSpatialModality| (MOD / |space#GeneralDirectionalDistancing|
+					:LEX from))))
+(EXAMPLE
+	:TARGETFORM	"A entrada fica do lado de a praça"
+	:GLOSS "The entrance is on the other side of the square"
+	:NAME	EX31
+	:LOGICALFORM	
+	(SPL / |space#SpatialLocating|
+		:|processInConfiguration| (PIC / |Process|
+			:LEX be-stable-3-s)
+		:|space#locatum| (LOC / |SimpleThing|
+			:LEX entrance)
+		:|space#placement| (PLC / |space#GeneralizedLocation|
+			:|space#hasSpatialModality| (MOD / |space#RelativeNonProjectionAxial|
+				:LEX beside-identifiable)
+			:|space#relatum| (REL / |SimpleThing|
+				:LEX square))))
+(EXAMPLE
+	:TARGETFORM "Chegar bem perto de a queda em botes"
+	:GLOSS "Get very close to the falls in boats"
+	:NAME EX32
+	:LOGICALFORM
+	(SPL / |space#NonAffectingDirectedMotion|
+		:|processInConfiguration| (PIC / |Process|
+			:LEX arrive)
+		:|space#route| (ROU / |space#GeneralizedRoute|
+			:|space#destination| (DES / |space#GeneralizedLocation|
+				:|space#relatum| (REL / |SimpleThing|
+						:LEX fall)
+				:|space#hasSpatialModality| (MOD / |space#Proximal|
+					:LEX close
+					:|hasModification| (MDF / |space#QualitativeSpatialTemporal|
+						:LEX very))))
+		:|circumstanceInConfiguration| (CIC / |space#GeneralizedLocation|
+			:|space#relatum| (REL / |NamedObject|
+				:LEX boats)
+			:|space#hasSpatialModality| (MOD / |space#Proximal|
+				:LEX in))
+				))
+(EXAMPLE
+	:TARGETFORM	"O edifício fica em frente"
+	:GLOSS "The building lies in front"
+	:NAME	EX33
+	:LOGICALFORM	
+	(SPL / |space#SpatialLocating|
+		:|processInConfiguration| (PIC / |Process|
+			:LEX be-stable-3-s)
+		:|space#locatum| (LOC / |SimpleThing|
+			:LEX building)
+		:|space#placement| (PLC / |space#GeneralizedLocation|
+			:|space#hasSpatialModality| (MOD / |space#FrontProjectionExternal|
+				:LEX in-front))))
+(EXAMPLE
+	:TARGETFORM "Ela entra em taxis"
+	:GLOSS "She enters taxis"
+	:NAME EX34
+	:LOGICALFORM
+	(SPL / |space#NonAffectingDirectedMotion|
+		:|processInConfiguration| (PIC / |Process|
+			:LEX enter)
+		:|actor| (ACO / |NamedObject|
+			:LEX she)
+		:|space#route| (ROU / |space#GeneralizedRoute|
+			:|space#destination| (DES / |space#GeneralizedLocation|
+				:|space#relatum| (REL / |NamedObject|
+						:LEX taxis)
+				:|space#hasSpatialModality| (MOD / |space#Proximal|
+					:LEX in)))))
+(EXAMPLE
+	:TARGETFORM "Você passa por o bairro entre as paradas 3 e 4"
+	:GLOSS "You will pass by/through the neighborhood between stops 3 and 4"
+	:NAME EX35
+	:LOGICALFORM
+	(SPL / |space#NonAffectingDirectedMotion|
+		:|processInConfiguration| (PIC / |Process|
+			:LEX pass)
+		:|actor| (ACO / |NamedObject|
+			:LEX you)
+		:|space#route| (ROU / |space#GeneralizedRoute|
+			:|space#pathPlacement| (PAP / |space#GeneralizedLocation|
+				:|space#relatum| (REL / |SimpleThing|
+						:LEX neighborhood)
+				:|space#hasSpatialModality| (MOD / |space#PathRepresenting|
+					:LEX through)))
+		:|circumstanceInConfiguration| (CIC / |space#GeneralizedLocation|
+				:|space#relatum| (REL / |NamedObject|
+						:LEX the-stops-3-4)
+				:|space#hasSpatialModality| (MOD / |space#Distribution|
+					:LEX between))))
+(EXAMPLE
+	:TARGETFORM "Fica entre Perneta e Branca"
+	:GLOSS "It lies between Perneta and Branca"
+	:NAME EX36
+	:LOGICALFORM
+	(SPL / |space#SpatialLocating|
+		:|processInConfiguration| (PIC / |Process|
+			:LEX be-stable-3-s)
+		:|space#placement| (PLC / |space#GeneralizedLocation|
+			:|space#relatum| (REL / |NamedObject|
+					:LEX perneta-brance)
+			:|space#hasSpatialModality| (MOD / |space#Distribution|
+				:LEX between))))
+(EXAMPLE
+	:TARGETFORM "Um microônibus circula entre pontos e o Aeroporto"
+	:GLOSS "A minibus runs between spots and the airport"
+	:NAME EX37
+	:LOGICALFORM
+	(SPL / |space#NonAffectingDirectedMotion|
+		:|processInConfiguration| (PIC / |Process|
+			:LEX circulate)
+		:|actor| (ACO / |SimpleThing|
+			:LEX minibus
+			:IDENTIFIABILITY not-identifiable)
+		:|space#route| (ROU / |space#GeneralizedRoute|
+			:|space#destination| (DES / |space#GeneralizedLocation|
+				:|space#relatum| (REL / |NamedObject|
+						:LEX spots-airport)
+				:|space#hasSpatialModality| (MOD / |space#MultipleDirectional|
+					:LEX between)))))
+(EXAMPLE
+	:TARGETFORM "Banca esquina com Augusto Stresser"
+	:GLOSS "Newsstand corner with Augusto Stresser"
+	:NAME EX38
+	:LOGICALFORM
+	(SPL / |NamedObject|
+		:LEX newsstand
+		:|circumstanceInConfiguration| (CIC / |space#GeneralizedLocation|
+			:|space#relatum| (REL / |NamedObject|
+				:LEX as-street)
+			:|space#hasSpatialModality| (MOD / |space#Connection|
+				:LEX corner))))
+(EXAMPLE
+	:TARGETFORM "Jogar fora"
+	:GLOSS "Throw away"
+	:NAME EX39
+	:LOGICALFORM
+	(SPL / |space#AffectingDirectedMotion|
+		:|processInConfiguration| (PIC / |Process|
+			:LEX throw-infinitive) 	
+		:|space#route| (ROU / |space#GeneralizedRoute|
+			:|space#destination| (DES / |space#GeneralizedLocation|
+				:|space#hasSpatialModality| (MOD / |space#DenialOfFunctionalControl|
+					:LEX out)))))
+(EXAMPLE
+	:TARGETFORM "Que caiba em a bolsa"
+	:GLOSS "Which fits in the bag"
+	:NAME EX40
+	:LOGICALFORM
+	(SPL / |space#SpatialLocating|
+		:|processInConfiguration| (PIC / |Process|
+			:LEX fit)
+		:|space#locatum| (LOC / |NamedObject|
+			:LEX which)
+		:|space#placement| (PLC / |space#GeneralizedLocation|
+			:|space#relatum| (REL / |SimpleThing|
+					:LEX bag)
+			:|space#hasSpatialModality| (MOD / |space#Proximal|
+				:LEX in))))
+(EXAMPLE
+	:TARGETFORM "O edifício fica em a praça"
+	:GLOSS "The building lies at the square"
+	:NAME EX41
+	:LOGICALFORM
+	(SPL / |space#SpatialLocating|
+		:|processInConfiguration| (PIC / |Process|
+			:LEX be-stable-3-s)
+		:|space#locatum| (LOC / |SimpleThing|
+			:LEX building)
+		:|space#placement| (PLC / |space#GeneralizedLocation|
+			:|space#relatum| (REL / |SimpleThing|
+					:LEX square)
+			:|space#hasSpatialModality| (MOD / |space#Proximal|
+				:LEX in))))
+(EXAMPLE
+	:TARGETFORM "O calçadão termina em a praça"
+	:GLOSS "The pedestrian zone ends at the square"
+	:NAME EX42
+	:LOGICALFORM
+	(SPL / |space#SpatialLocating|
+		:|processInConfiguration| (PIC / |Process|
+			:LEX end)
+		:|space#locatum| (LOC / |SimpleThing|
+			:LEX pedestrian-zone)
+		:|space#placement| (PLC / |space#GeneralizedLocation|
+			:|space#relatum| (REL / |SimpleThing|
+					:LEX square)
+			:|space#hasSpatialModality| (MOD / |space#GeneralDirectionalNearing|
+				:LEX in))))
+(EXAMPLE
+	:TARGETFORM "Mergulhar em a letra"
+	:GLOSS "Dive into the letters"
+	:NAME EX43
+	:LOGICALFORM
+	(SPL / |space#NonAffectingDirectedMotion|
+		:|processInConfiguration| (PIC / |Process|
+			:LEX dive)
+		:|space#route| (ROU / |space#GeneralizedRoute|
+			:|space#destination| (DES / |space#GeneralizedLocation|
+				:|space#relatum| (REL / |SimpleThing|
+						:LEX letter)
+				:|space#hasSpatialModality| (MOD / |space#Containment|
+					:LEX in)))))
+(EXAMPLE
+	:TARGETFORM "A mulher ficava nos fundos de o Palácio"
+	:GLOSS "The woman used to hide at the back of the palace"
+	:NAME EX46
+	:LOGICALFORM
+	(SPL / |space#SpatialLocating|
+		:|processInConfiguration| (PIC / |Process|
+			:LEX be-stable-3-s-past-imperfective)
+		:|space#locatum| (LOC / |SimpleThing|
+			:LEX woman)
+		:|space#placement| (PLC / |space#GeneralizedLocation|
+			:|space#relatum| (REL / |SimpleThing|
+					:LEX palace)
+			:|space#hasSpatialModality| (MOD / |space#BackProjectionInternal|
+				:LEX at-the-back))))
+(EXAMPLE
+	:TARGETFORM "O Vêneto no norte de a Itália"
+	:GLOSS "The Veneto in the north of Italy"
+	:NAME EX47
+	:LOGICALFORM
+	(SPL / |SimpleThing|
+		:LEX veneto
+		:|circumstanceInConfiguration| (CIC / |space#GeneralizedLocation|
+			:|space#relatum| (REL / |SimpleThing|
+					:LEX italy)
+			:|space#hasSpatialModality| (MOD / |space#North|
+				:LEX in-the-north))))
+(EXAMPLE
+	:TARGETFORM "A família vai para a beira"
+	:GLOSS "The families go to the shore"
+	:NAME EX48
+	:LOGICALFORM
+	(SPL / |space#NonAffectingDirectedMotion|
+		:|processInConfiguration| (PIC / |Process|
+			:LEX go-3-s)
+		:|actor| (ACO / |SimpleThing|
+			:LEX family)
+		:|space#route| (ROU / |space#GeneralizedRoute|
+			:|space#destination| (DES / |space#GeneralizedLocation|
+				:|space#relatum| (REL / |SimpleThing|
+						:LEX shore)
+				:|space#hasSpatialModality| (MOD / |space#GeneralDirectionalNearing|
+					:LEX to)))))
+(EXAMPLE
+	:TARGETFORM "Uma delícia trazida para cá"
+	:GLOSS "A deliciousness brought here"
+	:NAME EX49
+	:LOGICALFORM
+	(SPL / |space#AffectingDirectedMotion|
+		:|processInConfiguration| (PIC / |Process|
+			:LEX brought)
+		:|actee| (ACE / |SimpleThing|
+			:LEX deliciousness
+			:IDENTIFIABILITY not-identifiable)
+		:|space#route| (ROU / |space#GeneralizedRoute|
+			:|space#destination| (DES / |space#GeneralizedLocation|
+				:|space#hasSpatialModality| (MOD / |space#GeneralDirectionalNearing|
+					:LEX to
+					:|hasModification| (MDF / |space#QualitativeDistanceExtent|
+						:accessibility (ACC / |space#QualitativeDistanceExtent|
+							:accessibility-level-q speaker-high-dynamic)))))))
+(EXAMPLE
+	:TARGETFORM "O shopping fica perto"
+	:GLOSS "The mall is close"
+	:NAME EX50
+	:LOGICALFORM
+	(SPL / |space#SpatialLocating|
+		:|processInConfiguration| (PIC / |Process|
+			:LEX be-stable-3-s)
+		:|space#locatum| (LOC / |SimpleThing|
+			:LEX mall)
+		:|space#placement| (PLC / |space#GeneralizedLocation|
+			:|space#hasSpatialModality| (MOD / |space#Proximal|
+				:LEX close))))
+(EXAMPLE
+	:TARGETFORM "Muitos pontos ficam perto uns dos outros"
+	:GLOSS "Many spots are close to one another"
+	:NAME EX51
+	:LOGICALFORM
+	(SPL / |space#SpatialLocating|
+		:|processInConfiguration| (PIC / |Process|
+			:LEX be-stable-3-p)
+		:|space#locatum| (LOC / |NamedObject|
+			:LEX many-spots)
+		:|space#placement| (PLC / |space#GeneralizedLocation|
+			:|space#relatum| loc
+			:|space#hasSpatialModality| (MOD / |space#Proximal|
+				:LEX close))))
+(EXAMPLE
+	:TARGETFORM "Passear por lá"
+	:GLOSS "Promenade around there"
+	:NAME EX52
+	:LOGICALFORM
+	(SPL / |space#NonAffectingDirectedMotion|
+		:|processInConfiguration| (PIC / |Process|
+			:LEX promenade)
+		:|space#route| (ROU / |space#GeneralizedRoute|
+			:|space#pathPlacement| (PAP / |space#GeneralizedLocation|
+				:|space#hasSpatialModality| (MOD / |space#PathRepresenting|
+					:LEX through
+					:|hasModification| (MDF / |space#QualitativeDistanceExtent|
+						:accessibility (ACC / |space#QualitativeDistanceExtent|
+							:accessibility-level-q general-low-not-visible)))))))
+(EXAMPLE
+	:TARGETFORM "São quatro quadras até a rua"
+	:GLOSS "Four more blocks until the street"
+	:NAME EX54
+	:LOGICALFORM
+	(SPL / |Existence|
+		:|processInConfiguration| (PIC / |Process|
+			:LEX be-constant-3-p)
+		:|circumstanceInConfiguration| (CIC / |space#GeneralizedRoute|
+			:|space#destination| (DES / |space#GeneralizedLocation|
+				:|space#relatum| (REL / |SimpleThing|
+					:LEX street)
+				:|space#hasSpatialModality| (MOD / |space#GeneralDirectionalNearing|
+					:LEX until
+					:|hasModification| (MDF / |space#QuantitativeSpatialTemporal|
+						:LEX blocks
+						:QUANTITY (QNT / |NaturalNumber|
+							:LEX four)))))))
+(EXAMPLE
+	:TARGETFORM "Eles ficaram separados"
+	:GLOSS "They were separated"
+	:NAME EX55
+	:LOGICALFORM
+	(SPL / |space#SpatialLocating|
+		:|processInConfiguration| (PIC / |Process|
+			:LEX be-stable-3-p-past)
+		:|space#locatum| (LOC / |NamedObject|
+			:LEX they)
+		:|space#placement| (PLC / |space#GeneralizedLocation|
+			:|space#hasSpatialModality| (MOD / |space#Distal|
+				:LEX separated))))
+(EXAMPLE
+	:TARGETFORM "O andar superior"
+	:GLOSS "The top floor"
+	:NAME EX56
+	:LOGICALFORM
+	(SPL / |SimpleThing|
+		:LEX floor
+		:|circumstanceInConfiguration| (CIC / |space#GeneralizedLocation|
+			:|space#hasSpatialModality| (MOD / |space#AboveProjectionInternal|
+				:LEX top-formal))))
+(EXAMPLE
+	:TARGETFORM "Diversos bares um ao lado do outro"
+	:GLOSS "Several bars one beside the other"
+	:NAME EX57
+	:LOGICALFORM
+	(SPL / |NamedObject|
+		:LEX several-bars
+		:|circumstanceInConfiguration| (CIC / |space#GeneralizedLocation|
+			:|space#relatum| SPL
+			:|space#hasSpatialModality| (MOD / |space#RelativeNonProjectionAxial|
+				:LEX beside))))
+(EXAMPLE
+	:TARGETFORM "Os locais estão um pouco espalhados"
+	:GLOSS "The locations are a little scattered"
+	:NAME EX58
+	:LOGICALFORM
+	(SPL / |space#SpatialLocating|
+		:|processInConfiguration| (PIC / |Process|
+			:LEX be-temporary-p)
+		:|space#locatum| (LOC / |NamedObject|
+			:LEX the-locations)
+		:|space#placement| (PLC / |space#GeneralizedLocation|
+			:|space#hasSpatialModality| (MOD / |space#Distal|
+				:LEX scattered
+				:|hasModification| (MDF / |space#QualitativeSpatialTemporal|
+					:LEX a-little)))))
+(EXAMPLE
+	:TARGETFORM "Um bairro vizinho de todos esses"
+	:GLOSS "A neighborhood neighbor of all these"
+	:NAME EX59
+	:LOGICALFORM
+	(SPL / |SimpleThing|
+		:LEX neighborhood
+		:IDENTIFIABILITY not-identifiable
+		:|circumstanceInConfiguration| (CIC / |space#GeneralizedLocation|
+			:|space#relatum| (REL / |NamedObject|
+				:LEX all-these)
+			:|space#hasSpatialModality| (MOD / |space#Connection|
+				:LEX neighbor))))

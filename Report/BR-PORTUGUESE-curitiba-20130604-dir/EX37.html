@@ -1,0 +1,38 @@
+
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>Semantic specification for example: EX37</title>
+</head><P><font size=+2><B>EX37</B></font><p><P><PRE>
+(EXAMPLE
+     :NAME                   EX37
+     :GENERATEDFORM          "Um microônibus circula entre pontos e o Aeroporto"
+     :GLOSS                  ( :ENGLISH
+                               "A minibus runs between spots and the airport")
+     :TARGETFORM             "Um microônibus circula entre pontos e o Aeroporto"
+     :LOGICALFORM
+     (SPL / |space#NonAffectingDirectedMotion|
+          :|processInConfiguration|
+          (PIC / |Process|
+               :LEX CIRCULATE )
+
+          :|actor|
+          (ACO / |SimpleThing|
+               :LEX MINIBUS
+               :IDENTIFIABILITY NOT-IDENTIFIABLE )
+
+          :|space#route|
+          (ROU / |space#GeneralizedRoute|
+               :|space#destination|
+               (DES / |space#GeneralizedLocation|
+                    :|space#relatum|
+                    (REL / |NamedObject|
+                         :LEX SPOTS-AIRPORT )
+
+                    :|space#hasSpatialModality|
+                    (MOD / |space#MultipleDirectional|
+                         :LEX BETWEEN )
+                    )
+               )
+          )
+     :SET-NAME               |curitiba|
+     )</PRE><P><font size=-1><I><A HREF="index.html">Return to index.</A></I></font>
+</body></html>

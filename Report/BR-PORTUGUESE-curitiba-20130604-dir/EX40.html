@@ -1,0 +1,33 @@
+
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>Semantic specification for example: EX40</title>
+</head><P><font size=+2><B>EX40</B></font><p><P><PRE>
+(EXAMPLE
+     :NAME                   EX40
+     :GENERATEDFORM          "Que caiba em a bolsa"
+     :GLOSS                  ( :ENGLISH "Which fits in the bag")
+     :TARGETFORM             "Que caiba em a bolsa"
+     :LOGICALFORM
+     (SPL / |space#SpatialLocating|
+          :|processInConfiguration|
+          (PIC / |Process|
+               :LEX FIT )
+
+          :|space#locatum|
+          (LOC / |NamedObject|
+               :LEX WHICH )
+
+          :|space#placement|
+          (PLC / |space#GeneralizedLocation|
+               :|space#relatum|
+               (REL / |SimpleThing|
+                    :LEX BAG )
+
+               :|space#hasSpatialModality|
+               (MOD / |space#Proximal|
+                    :LEX IN )
+               )
+          )
+     :SET-NAME               |curitiba|
+     )</PRE><P><font size=-1><I><A HREF="index.html">Return to index.</A></I></font>
+</body></html>

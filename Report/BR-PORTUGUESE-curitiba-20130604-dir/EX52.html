@@ -1,0 +1,36 @@
+
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>Semantic specification for example: EX52</title>
+</head><P><font size=+2><B>EX52</B></font><p><P><PRE>
+(EXAMPLE
+     :NAME                   EX52
+     :GENERATEDFORM          "Passear por lá"
+     :GLOSS                  ( :ENGLISH "Promenade around there")
+     :TARGETFORM             "Passear por lá"
+     :LOGICALFORM
+     (SPL / |space#NonAffectingDirectedMotion|
+          :|processInConfiguration|
+          (PIC / |Process|
+               :LEX PROMENADE )
+
+          :|space#route|
+          (ROU / |space#GeneralizedRoute|
+               :|space#pathPlacement|
+               (PAP / |space#GeneralizedLocation|
+                    :|space#hasSpatialModality|
+                    (MOD / |space#PathRepresenting|
+                         :LEX THROUGH
+                         :|hasModification|
+                         (MDF / |space#QualitativeDistanceExtent|
+                              :ACCESSIBILITY
+                              (ACC / |space#QualitativeDistanceExtent|
+                                   :ACCESSIBILITY-LEVEL-Q
+                                   GENERAL-LOW-NOT-VISIBLE )
+                              )
+                         )
+                    )
+               )
+          )
+     :SET-NAME               |curitiba|
+     )</PRE><P><font size=-1><I><A HREF="index.html">Return to index.</A></I></font>
+</body></html>

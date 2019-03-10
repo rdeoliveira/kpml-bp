@@ -1,0 +1,35 @@
+
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>Semantic specification for example: EX14</title>
+</head><P><font size=+2><B>EX14</B></font><p><P><PRE>
+(EXAMPLE
+     :NAME                   EX14
+     :GENERATEDFORM          "O teatro fica ali"
+     :GLOSS                  ( :ENGLISH "The theater lies there")
+     :TARGETFORM             "O teatro fica ali"
+     :LOGICALFORM
+     (SPL / |space#SpatialLocating|
+          :|processInConfiguration|
+          (PIC / |Process|
+               :LEX BE-STABLE-3-S )
+
+          :|space#locatum|
+          (LOC / |SimpleThing|
+               :LEX THEATER )
+
+          :|space#placement|
+          (PLC / |space#GeneralizedLocation|
+               :|space#hasSpatialModality|
+               (MOD / |space#SpatialModality|
+                    :|hasModification|
+                    (MDF / |space#QualitativeDistanceExtent|
+                         :ACCESSIBILITY
+                         (ACC / |space#QualitativeDistanceExtent|
+                              :ACCESSIBILITY-LEVEL-Q GENERAL-LOW )
+                         )
+                    )
+               )
+          )
+     :SET-NAME               |curitiba|
+     )</PRE><P><font size=-1><I><A HREF="index.html">Return to index.</A></I></font>
+</body></html>

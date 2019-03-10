@@ -1,0 +1,40 @@
+
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>Semantic specification for example: EX54</title>
+</head><P><font size=+2><B>EX54</B></font><p><P><PRE>
+(EXAMPLE
+     :NAME                   EX54
+     :GENERATEDFORM          "São quatro quadras até a rua"
+     :GLOSS                  ( :ENGLISH "Four more blocks until the street")
+     :TARGETFORM             "São quatro quadras até a rua"
+     :LOGICALFORM
+     (SPL / |Existence|
+          :|processInConfiguration|
+          (PIC / |Process|
+               :LEX BE-CONSTANT-3-P )
+
+          :|circumstanceInConfiguration|
+          (CIC / |space#GeneralizedRoute|
+               :|space#destination|
+               (DES / |space#GeneralizedLocation|
+                    :|space#relatum|
+                    (REL / |SimpleThing|
+                         :LEX STREET )
+
+                    :|space#hasSpatialModality|
+                    (MOD / |space#GeneralDirectionalNearing|
+                         :LEX UNTIL
+                         :|hasModification|
+                         (MDF / |space#QuantitativeSpatialTemporal|
+                              :LEX BLOCKS
+                              :QUANTITY
+                              (QNT / |NaturalNumber|
+                                   :LEX FOUR )
+                              )
+                         )
+                    )
+               )
+          )
+     :SET-NAME               |curitiba|
+     )</PRE><P><font size=-1><I><A HREF="index.html">Return to index.</A></I></font>
+</body></html>

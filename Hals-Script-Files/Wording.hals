@@ -1,0 +1,1103 @@
+on (start)
+	consider RANK
+
+system RANK
+	clause
+	phrase
+	nominal-group
+
+when considering RANK
+	check Current CONFIGURATION-STATUS,
+		if configuration,
+			determine Process name using Current CLASS-NAME,
+			select clause
+		if not-configuration,
+			check Current CIRCUMSTANCE-STATUS,
+				if circumstance,
+					select phrase
+				if not-circumstance,
+					select nominal-group
+
+on (clause)
+	consider CONFIGURATION-TYPE
+
+system CONFIGURATION-TYPE
+	relating
+	existence
+	perception
+	affecting-action
+	affecting-spatial-action
+	non-affecting-action
+	non-affecting-spatial-doing
+	non-affecting-orientation-change
+	spatial-locating
+
+when considering CONFIGURATION-TYPE
+	check Current CONFIGURATION-TYPE,
+		if relating,
+			conceive Attribuend idea using Current ATTRIBUEND-IDEA,
+			conceive Attribute idea using Current ATTRIBUTE-IDEA,
+			select relating
+		if existence,
+			conceive Existent idea using Current EXISTENT-IDEA,
+			select existence
+		if perception,
+			conceive Senser idea using Current SENSER-IDEA,
+			conceive Phenomenon idea using Current PHENOMENON-IDEA,
+			select perception
+		if affecting-action,
+			conceive Actor idea using Current ACTOR-IDEA,
+			conceive Actee idea using Current ACTEE-IDEA,
+			select affecting-action
+		if non-affecting-action,
+			conceive Actor idea using Current ACTOR-IDEA,
+			select non-affecting-action
+		if affecting-spatial-action,
+			conceive Actor idea using Current ACTOR-IDEA,
+			conceive Actee idea using Current ACTEE-IDEA,
+			conceive Route idea using Current ROUTE-IDEA,
+			select affecting-spatial-action
+		if non-affecting-spatial-doing,
+			conceive Actor idea using Current ACTOR-IDEA,
+			conceive Route idea using Current ROUTE-IDEA,
+			select non-affecting-spatial-doing
+		if non-affecting-orientation-change,
+			conceive Actor idea using Current ACTOR-IDEA,
+			conceive Direction idea using Current DIRECTION-IDEA,
+			select non-affecting-orientation-change
+		if spatial-locating,
+			conceive Locatum idea using Current LOCATUM-IDEA,
+			conceive Placement idea using Current PLACEMENT-IDEA,
+			select spatial-locating
+
+on (spatial-locating)
+	insert Locatum
+	insert Process
+	insert Placement
+	order Locatum Process
+	order Process Placement
+	preselect Locatum start
+	preselect Placement start
+
+on (existence)
+	insert Existent
+	insert Process
+	order Process Existent
+	preselect Existent start
+
+on (perception)
+	insert Senser
+	insert Process
+	insert Phenomenon
+	order Senser Process
+	order Process Phenomenon
+	preselect Senser start
+	preselect Phenomenon start
+
+on (affecting-action)
+	insert Actor
+	insert Process
+	insert Actee
+	order Actor Process
+	order Process Actee
+	preselect Actor start
+	preselect Actee start
+
+on (affecting-spatial-action)
+	insert Actor
+	insert Process
+	insert Actee
+	insert Route
+	order Actor Process
+	order Process Actee
+	order Actee Route
+	preselect Actor start
+	preselect Actee start
+	preselect Route start
+
+on (non-affecting-action)
+	insert Actor
+	insert Process
+	order Actor Process
+	preselect Actor start
+
+on (non-affecting-spatial-doing)
+	insert Actor
+	insert Process
+	insert Route
+	order Actor Process
+	order Process Route
+	preselect Actor start
+	preselect Route start
+
+on (non-affecting-orientation-change)
+	insert Actor
+	insert Process
+	insert Direction
+	order Actor Process
+	order Process Direction
+	preselect Actor start
+	preselect Direction start
+
+on (relating)
+	insert Attribuend
+	insert Process
+	insert Attribute
+	order Attribuend Process
+	order Process Attribute
+	preselect Attribuend start
+	preselect Attribute start
+
+on ((clause and not spatial-locating) or nominal-group)
+	consider CIRCUMSTANCE
+
+system CIRCUMSTANCE
+	with-circumstance
+	without-circumstance
+
+when considering CIRCUMSTANCE
+	check Current IS-THERE-CIRCUMSTANCE,
+		if yes,
+			conceive Circumstance idea using Current CIRCUMSTANCE-IDEA, 
+			select with-circumstance
+		if no,
+			select without-circumstance
+
+on (with-circumstance)
+	insert Circumstance
+	end with Circumstance
+	preselect Circumstance start
+
+on (nominal-group and simplex)
+	consider REFERENCE-TYPE
+	consider IDENTIFIABILITY
+	consider GENDER
+
+on (nominal-group)
+	consider NOMINAL-GROUP-COMPLEX
+
+system NOMINAL-GROUP-COMPLEX
+	complex
+	simplex
+
+on (complex)
+	insert Conjunction
+	lexify Conjunction and,
+	insert Previous
+	insert Next
+	order Previous Conjunction
+	order Conjunction Next
+	preselect Next start
+	preselect Previous start
+	preselect Previous simplex
+
+when considering NOMINAL-GROUP-COMPLEX
+	check Current COMPLEXITY,
+		if complex,
+			conceive Next idea using Current NEXT-IDEA,
+			plagiarize Current Previous
+			select complex
+		if simplex,
+			select simplex
+
+system REFERENCE-TYPE
+	class-reference
+	thing-reference
+	reciprocal-reference
+
+when considering REFERENCE-TYPE
+	check Current REFERENCE-TYPE,
+		if class,
+			determine Class name using Current CLASS-NAME,
+			select class-reference
+		if thing,
+			determine Thing name using Current NAME,
+			select thing-reference
+
+on (class-reference)
+	insert Determiner
+	classify Determiner determiner'
+	insert Class
+	order Determiner Class
+
+on (thing-reference)
+	insert Thing
+
+on (reciprocal-reference)
+	insert Class
+	insert Determiner
+	order Determiner Class
+	lexify Class other,
+
+system IDENTIFIABILITY
+	identifiable
+	not-identifiable
+
+when considering IDENTIFIABILITY
+	check Current NAME-IDENTIFIABILITY,
+		if identifiable, 
+			select identifiable
+		if not-identifiable,
+			select not-identifiable
+
+on (identifiable and class-reference)
+	classify Determiner identifiable'
+
+on (not-identifiable and class-reference)
+	classify Determiner not-identifiable'
+
+system GENDER
+	feminine
+	masculine
+
+when considering GENDER
+	check Class NAME-GENDER,
+		if feminine,
+			select feminine
+		if masculine,
+			select masculine
+
+on (feminine and not thing-reference)
+	classify Determiner feminine'
+
+on (masculine and not thing-reference)
+	classify Determiner masculine'
+
+on (preposition-of and not thing-reference)
+	conflate Determiner Preposition
+
+on (not-prepositioned and not thing-reference)
+	classify Determiner not-minor-process'
+
+on (preposition-in and not thing-reference)
+	conflate Determiner Preposition
+
+on (preposition-for and not thing-reference)
+	conflate Determiner Preposition
+
+on (in-type and not thing-reference)
+	conflate Determiner Minorprocess
+
+on (preposition-by and not thing-reference)
+	conflate Determiner Preposition
+
+on (by-type and not thing-reference)
+	conflate Determiner Minorprocess
+
+on (nominal-group)
+	consider CASE
+
+system CASE
+	not-prepositioned
+	preposition-by
+	preposition-of
+	preposition-with
+	preposition-without
+	preposition-in
+	preposition-for
+	preposition-until
+
+when considering CASE
+	select not-prepositioned
+
+on (class-reference and not not-prepositioned)
+	partition Preposition Class
+
+on (thing-reference and not not-prepositioned)
+	partition Preposition Thing
+
+on (reciprocal-reference and not not-prepositioned)
+	partition Preposition Class
+
+on (preposition-by)
+	insert Preposition
+	classify Preposition minor-process'
+	classify Preposition by'
+
+on (preposition-of)
+	insert Preposition
+	classify Preposition minor-process'
+	classify Preposition de'
+
+on (preposition-in)
+	insert Preposition
+	classify Preposition minor-process'
+	classify Preposition em'
+
+on (preposition-for)
+	insert Preposition
+	classify Preposition minor-process'
+	classify Preposition por'
+
+on (not (not-prepositioned or preposition-with or preposition-without or preposition-until) and thing-reference)
+	classify Preposition not-determiner'
+
+on (preposition-with)
+	insert Preposition
+	lexify Preposition with,
+
+on (preposition-without)
+	insert Preposition
+	lexify Preposition without,
+
+on (preposition-until)
+	insert Preposition
+	lexify Preposition until,
+
+on ((preposition-with or preposition-without or preposition-until) and not thing-reference)
+	classify Determiner not-minor-process'
+
+on (phrase)
+	consider PHRASE-TYPE
+
+system PHRASE-TYPE
+	location-phrase
+	route-phrase
+
+when considering PHRASE-TYPE
+	check Current LOCATION-STATUS,
+		if location,
+			conceive Minorprocess idea using Current SPATIAL-MODALITY-IDEA,
+			conceive Minorrange idea using Current RELATUM-IDEA,
+			select location-phrase
+		if not-location,
+			select route-phrase
+
+on (location-phrase)
+	consider LOCATION-PHRASE-TYPE
+
+on (route-phrase)
+	consider SOURCE-STATUS
+
+when considering SOURCE-STATUS
+	check Current IS-SOURCE-MENTIONED,
+		if yes,
+			conceive Source idea using Current SOURCE-IDEA,
+			conceive Source idea using Source RELATUM-IDEA,
+			select with-source
+		if no,
+			select without-source
+
+system SOURCE-STATUS
+	with-source
+	without-source
+
+on (with-source)
+	insert Source
+	preselect Source start
+	begin with Source
+	preselect Source preposition-of
+	consider DESTINATION-STATUS
+
+on (without-source)
+	consider DESTINATION-STATUS
+
+when considering DESTINATION-STATUS
+	check Current IS-DESTINATION-MENTIONED,
+		if yes,
+			conceive Destination idea using Current DESTINATION-IDEA,
+			select with-destination
+		if no,
+			select without-destination
+
+system DESTINATION-STATUS
+	with-destination
+	without-destination
+
+on (with-destination)
+	insert Destination
+	preselect Destination start
+	consider PATH-PLACEMENT-STATUS
+
+on (without-destination)
+	consider PATH-PLACEMENT-STATUS
+
+when considering PATH-PLACEMENT-STATUS
+	check Current IS-PATH-PLACEMENT-MENTIONED,
+		if yes,
+			conceive PathPlacement idea using Current PATH-PLACEMENT-IDEA,
+			select with-path-placement
+		if no,
+			select without-path-placement
+
+system PATH-PLACEMENT-STATUS
+	with-path-placement
+	without-path-placement
+
+on (with-path-placement)
+	insert PathPlacement
+	preselect PathPlacement start
+
+when considering LOCATION-PHRASE-TYPE
+	check Current IS-THERE-RELATUM,
+		if yes,
+			select prepositional-phrase
+		if no,
+			select adverbial-group
+
+system LOCATION-PHRASE-TYPE
+	adverbial-group
+	prepositional-phrase
+
+on (adverbial-group)
+	consider SPATIAL-MODALITY-TYPE
+	consider SPATIAL-MODALITY-MODIFICATION-TYPE
+
+on (prepositional-phrase and not reciprocal)
+	end with Minorrange
+
+on (prepositional-phrase)
+	insert Minorrange
+	preselect Minorrange start
+	consider SPATIAL-MODALITY-TYPE
+	consider SPATIAL-MODALITY-MODIFICATION-TYPE
+
+system SPATIAL-MODALITY-TYPE
+	no-spatial-modality
+	above-projection-external-phrase
+	above-projection-internal-phrase
+	back-projection-external-phrase
+	back-projection-internal-phrase
+	central-phrase
+	connection-phrase
+	containment-phrase
+	denial-of-functional-control-phrase
+	distal-phrase
+	distribution-phrase
+	general-directional-nearing-phrase
+	general-directional-distancing-phrase
+	front-projection-external-phrase
+	lateral-projection-phrase
+	multi-directional-phrase
+	north-internal-phrase
+	parthood-phrase
+	path-representing-phrase
+	peripheral-phrase
+	proximal-phrase
+	quantitative-distance-phrase
+	relative-non-projection-axial-phrase
+	right-projection-phrase
+	support-phrase
+	surrounding-phrase
+	topographical-phrase
+	under-projection-external-phrase
+
+when considering SPATIAL-MODALITY-TYPE
+	check Current SURROUNDING-PHRASE,
+		if yes,
+			select surrounding-phrase
+		if no,
+			check Current ABOVE-PROJECTION-EXTERNAL-PHRASE,
+				if yes,
+					select above-projection-external-phrase
+				if no,
+					check Current ABOVE-PROJECTION-INTERNAL-PHRASE,
+						if yes,
+							select above-projection-internal-phrase
+						if no,
+							check Current BACK-PROJECTION-EXTERNAL-PHRASE,
+								if yes,
+									select back-projection-external-phrase
+								if no,
+									check Current BACK-PROJECTION-INTERNAL-PHRASE,
+										if yes,
+											select back-projection-internal-phrase
+										if no,
+											check Current CENTRAL-PHRASE,
+												if yes,
+													select central-phrase
+												if no,
+													check Current CONNECTION-PHRASE,
+														if yes,
+															select connection-phrase
+														if no,
+															check Current CONTAINMENT-PHRASE,
+																if yes,
+																	select containment-phrase
+																if no,
+																	check Current DENIAL-OF-FUNCTIONAL-CONTROL-PHRASE,
+																		if yes,
+																			select denial-of-functional-control-phrase
+																		if no,
+																			check Current DISTAL-PHRASE,
+																				if yes,
+																					select distal-phrase
+																				if no,
+																					check Current DISTRIBUTION-PHRASE,
+																						if yes,
+																							select distribution-phrase
+																						if no,
+																							check Current GENERAL-DIRECTIONAL-NEARING-PHRASE,
+																								if yes,
+																									select general-directional-nearing-phrase
+																								if no,
+																									check Current GENERAL-DIRECTIONAL-DISTANCING-PHRASE,
+																										if yes,
+																											select general-directional-distancing-phrase
+																										if no,
+																											check Current FRONT-PROJECTION-EXTERNAL-PHRASE,
+																												if yes,
+																													select front-projection-external-phrase
+																												if no,
+																													check Current LATERAL-PROJECTION-PHRASE,
+																														if yes,
+																															select lateral-projection-phrase
+																														if no,
+																															check Current MULTI-DIRECTIONAL-PHRASE,
+																																if yes,
+																																	select multi-directional-phrase
+																																if no,
+																																	check Current NORTH-INTERNAL-PHRASE,
+																																		if yes,
+																																			select north-internal-phrase
+																																		if no,
+																																			check Current PARTHOOD-PHRASE,
+																																				if yes,
+																																					select parthood-phrase
+																																				if no,
+																																					check Current PATH-REPRESENTING-PHRASE,
+																																						if yes,
+																																							select path-representing-phrase
+																																						if no,
+																																							check Current PERIPHERAL-PHRASE,
+																																								if yes,
+																																									select peripheral-phrase
+																																								if no,
+																																									check Current PROXIMAL-PHRASE,
+																																										if yes,
+																																											select proximal-phrase
+																																										if no,
+																																											check Current QUANTITATIVE-DISTANCE-PHRASE,
+																																												if yes,
+																																													select quantitative-distance-phrase
+																																												if no,
+																																													check Current RELATIVE-NON-PROJECTION-AXIAL-PHRASE,
+																																														if yes,
+																																															select relative-non-projection-axial-phrase
+																																														if no,
+																																															check Current RIGHT-PROJECTION-PHRASE,
+																																																if yes,
+																																																	select right-projection-phrase
+																																																if no,
+																																																	check Current SUPPORT-PHRASE,
+																																																		if yes,
+																																																			select support-phrase
+																																																		if no,
+																																																			check Current TOPOGRAPHICAL-PHRASE,
+																																																				if yes,
+																																																					select topographical-phrase
+																																																				if no,
+																																																					check Current UNDER-PROJECTION-EXTERNAL-PHRASE,
+																																																						if yes,
+																																																							select under-projection-external-phrase
+																																																						if no,
+																																																							select no-spatial-modality
+
+on (prepositional-phrase and not (path-representing-phrase or in-type-parthood or no-spatial-modality or connection-phrase or containment-phrase or distribution-phrase or front-projection-external-phrase or proximal-phrase or support-phrase or under-projection-external-phrase or general-directional-nearing-phrase or general-directional-distancing-phrase))
+	preselect Minorrange preposition-of
+
+on (prepositional-phrase and above-projection-external-phrase)
+	preselect Minorrange preposition-of
+
+on (above-projection-external-phrase)
+	insert Minorprocess
+	lexify Minorprocess above,
+
+on (above-projection-internal-phrase)
+	insert Minorprocess
+	lexify Minorprocess at-the-top,
+
+on (back-projection-external-phrase)
+	insert Minorprocess
+	lexify Minorprocess behind,
+
+on (prepositional-phrase and back-projection-external-phrase)
+	preselect Minorrange preposition-of
+
+on (back-projection-internal-phrase)
+	insert Minorprocess
+	lexify Minorprocess at-the-back,
+
+on (prepositional-phrase and back-projection-internal-phrase)
+	preselect Minorrange preposition-of
+
+on (central-phrase)
+	insert Minorprocess
+	lexify Minorprocess in-the-middle,
+
+on (connection-phrase)
+	consider CONNECTION-PHRASE-TYPE
+
+system CONNECTION-PHRASE-TYPE
+	corner-with
+	neighbor-of
+	begin-at
+	end-at
+	origin-end
+
+when considering CONNECTION-PHRASE-TYPE
+	conceive Minorprocess idea using Current SPATIAL-MODALITY-IDEA,
+	check Minorprocess CONNECTION-TYPE,
+		if corner-with-type,
+			select corner-with
+		if neighbor-of-type,
+			select neighbor-of
+		if begin-at-type,
+			select begin-at
+		if end-at-type,
+			select end-at
+		if origin-end-type,
+			select origin-end
+
+on (corner-with)
+	insert Minorprocess
+	lexify Minorprocess corner,
+
+on (corner-with and prepositional-phrase)
+	preselect Minorrange preposition-with
+
+on (neighbor-of)
+	insert Minorprocess
+	lexify Minorprocess neighbor,
+
+on (neighbor-of and prepositional-phrase)
+	preselect Minorrange preposition-of
+
+on (begin-at or end-at)
+	preselect Minorrange preposition-in
+
+on (denial-of-functional-control-phrase)
+	consider DENIAL-OF-FUNCTION-CONTROL-PHRASE-TYPE
+
+system DENIAL-OF-FUNCTION-CONTROL-PHRASE-TYPE
+	out-type
+	be-without-type
+
+on (out-type)
+	insert Minorprocess
+	lexify Minorprocess out,
+
+on (out-type and prepositional-phrase)
+	preselect Minorrange preposition-of
+
+on (be-without-type and prepositional-phrase)
+	preselect Minorrange preposition-without 
+
+when considering DENIAL-OF-FUNCTION-CONTROL-PHRASE-TYPE
+	conceive Minorprocess idea using Current SPATIAL-MODALITY-IDEA,
+	check Minorprocess DENIAL-OF-FUNCTION-CONTROL-PHRASE-TYPE,
+		if out-type,
+			select out-type
+		if be-without-type,
+			select be-without-type
+
+on (distal-phrase)
+	consider DISTAL-PHRASE-TYPE
+
+system DISTAL-PHRASE-TYPE
+	scattered
+	appart
+
+when considering DISTAL-PHRASE-TYPE
+	conceive Minorprocess idea using Current SPATIAL-MODALITY-IDEA,
+	check Minorprocess DISTAL-TYPE,
+		if scattered-type,
+			select scattered
+		if appart-type,
+			select appart
+
+on (scattered)
+	insert Minorprocess
+	lexify Minorprocess scattered,
+
+on (scattered and prepositional-phrase)
+	preselect Minorrange preposition-for
+
+on (appart)
+	insert Minorprocess
+	lexify Minorprocess appart-plural,
+
+on (appart and prepositional-phrase)
+	preselect Minorrange preposition-of
+
+on (distribution-phrase)
+	insert Minorprocess
+	lexify Minorprocess between,
+
+on (general-directional-nearing-phrase)
+	consider GENERAL-DIRECTIONAL-NEARING-TYPE
+
+system GENERAL-DIRECTIONAL-NEARING-TYPE
+	gdn-by-type
+	gdn-until-type
+	gdn-recursive-type
+	gdn-to-type
+	gdn-in-type
+	no-subtype
+
+on (no-subtype)
+	preselect Minorrange not-prepositioned
+
+on (gdn-in-type)
+	preselect Minorrange preposition-in
+
+on (gdn-until-type)
+	preselect Minorrange preposition-until
+
+on (gdn-to-type)
+	insert Minorprocess
+	lexify Minorprocess to,
+
+on (gdn-by-type)
+	preselect Minorrange preposition-by
+
+on (gdn-recursive-type)
+	preselect Minorrange preposition-of
+	insert MinorrangeCopy
+	order Minorrange MinorrangeCopy
+	preselect MinorrangeCopy preposition-in
+	preselect MinorrangeCopy start
+
+when considering GENERAL-DIRECTIONAL-NEARING-TYPE
+	conceive Current idea using Current SPATIAL-MODALITY-IDEA,
+	check Current GENERAL-DIRECTIONAL-NEARING-TYPE,
+		if no-subtype,
+			select no-subtype
+		if by-type,
+			select gdn-by-type
+		if to-type,
+			select gdn-to-type
+		if in-type,
+			select gdn-in-type
+		if until-type,
+			select gdn-until-type
+		if recursive-type,
+			plagiarize Minorrange MinorrangeCopy
+			select gdn-recursive-type
+
+on (front-projection-external-phrase)
+	insert Minorprocess
+	lexify Minorprocess in-front,
+	preselect Minorrange preposition-by
+
+on (containment-phrase)
+	consider CONTAINMENT-PHRASE-TYPE
+
+system CONTAINMENT-PHRASE-TYPE
+	in-type-containment
+	reflected-type
+	fit-in-type
+	for-type
+	stuffed-type
+	by-type-containment
+
+when considering CONTAINMENT-PHRASE-TYPE
+	conceive Minorprocess idea using Current SPATIAL-MODALITY-IDEA,
+	check Minorprocess CONTAINMENT-TYPE,
+		if in-type,
+			select in-type-containment
+		if reflected-type,
+			select reflected-type
+		if fit-in-type,
+			select fit-in-type
+		if for-type,
+			select for-type
+		if stuffed-type,
+			select stuffed-type
+		if by-type,
+			select by-type-containment
+
+on (by-type-containment)
+	preselect Minorrange preposition-by
+
+on (in-type-containment)
+	preselect Minorrange preposition-in
+
+on (for-type)
+	preselect Minorrange preposition-for
+
+on (reflected-type)
+	insert Minorprocess
+	lexify Minorprocess reflected,
+	preselect Minorrange preposition-in
+
+on (fit-in-type)
+	preselect Minorrange preposition-in
+
+on (stuffed-type)
+	insert Minorprocess
+	lexify Minorprocess stuffed,
+	preselect Minorrange preposition-with
+
+on (lateral-projection-phrase)
+	insert Minorprocess
+	lexify Minorprocess at-side,
+	preselect Minorrange preposition-of 
+
+on (north-internal-phrase)
+	insert Minorprocess
+	lexify Minorprocess in-the-north,
+	preselect Minorrange preposition-of
+
+on (multi-directional-phrase)
+	insert Minorprocess
+	lexify Minorprocess between,
+	preselect Minorrange not-prepositioned
+
+on (path-representing-phrase)
+	consider PATH-REPRESENTING-PHRASE-TYPE
+
+system PATH-REPRESENTING-PHRASE-TYPE
+	verbal
+	for-type-path
+	along-type-path
+
+when considering PATH-REPRESENTING-PHRASE-TYPE
+	conceive Minorprocess idea using Current SPATIAL-MODALITY-IDEA,
+	check Minorprocess PATH-REPRESENTING-PHRASE-TYPE,
+		if verbal,
+			select verbal
+		if for-type,
+			select for-type-path
+		if along-type,
+			select along-type-path
+
+on (along-type-path)
+	insert Minorprocess
+	lexify Minorprocess along,
+	preselect Minorrange preposition-of
+
+on (verbal)
+	preselect Minorrange not-prepositioned
+
+on (for-type-path)
+	preselect Minorrange preposition-for
+
+on (parthood-phrase)
+	consider PARTHOOD-PHRASE-TYPE
+
+system PARTHOOD-PHRASE-TYPE
+	of-type-parthood
+	in-type-parthood
+	
+when considering PARTHOOD-PHRASE-TYPE
+	conceive Minorprocess idea using Current SPATIAL-MODALITY-IDEA,
+	check Minorprocess PARTHOOD-TYPE,
+		if of-type,
+			select of-type-parthood
+		if in-type,
+			select in-type-parthood
+
+on (of-type-parthood)
+	preselect Minorrange preposition-of
+
+on (in-type-parthood)
+	preselect Minorrange preposition-in
+
+on (peripheral-phrase)
+	preselect Minorrange preposition-of
+
+on (proximal-phrase)
+	consider PROXIMAL-PHRASE-TYPE
+
+system PROXIMAL-PHRASE-TYPE
+	along-type
+	in-type-proximal
+	close-type
+	by-type
+	relative-type
+	proximity-with-type
+	
+when considering PROXIMAL-PHRASE-TYPE
+	conceive Minorprocess idea using Current SPATIAL-MODALITY-IDEA,
+	check Minorprocess PROXIMAL-TYPE,
+		if along-type,
+			select along-type
+		if in-type,
+			select in-type-proximal
+		if close-type,
+			select close-type
+		if by-type,
+			select by-type
+		if relative-type,
+			select relative-type
+		if proximity-with-type,
+			select proximity-with-type
+
+on (along-type)
+	insert Minorprocess
+	lexify Minorprocess along,
+	preselect Minorrange preposition-of
+
+on (in-type-proximal)
+	preselect Minorrange preposition-in
+
+on (close-type)
+	insert Minorprocess
+	lexify Minorprocess close,
+	preselect Minorrange preposition-of
+
+on (by-type)
+	preselect Minorrange preposition-by
+
+on (relative-type)
+	insert Minorprocess
+	lexify Minorprocess where,
+	begin with Minorprocess
+
+on (proximity-with-type)
+	preselect Minorrange preposition-with
+
+on (quantitative-distance-phrase)
+	consider QUANTITATIVE-DISTANCE-PHRASE-TYPE
+
+system QUANTITATIVE-DISTANCE-PHRASE-TYPE
+	quantified-away-from-type
+	until-type
+
+when considering QUANTITATIVE-DISTANCE-PHRASE-TYPE
+	conceive Minorprocess idea using Current SPATIAL-MODALITY-IDEA,
+	check Minorprocess QUANTITATIVE-DISTANCE-TYPE,
+		if away-from-type,
+			select quantified-away-from-type
+		if until-type,
+			select until-type
+
+on (quantified-away-from-type)
+	preselect Minorrange preposition-of
+
+on (relative-non-projection-axial-phrase)
+	insert Minorprocess
+	lexify Minorprocess beside,
+	preselect Minorrange preposition-of
+
+on (right-projection-phrase)
+	preselect Minorrange preposition-by
+
+on (support-phrase)
+	consider SUPPORT-PHRASE-TYPE
+
+system SUPPORT-PHRASE-TYPE
+	in-type-support
+	other-type
+
+when considering SUPPORT-PHRASE-TYPE
+	conceive Minorprocess idea using Current SPATIAL-MODALITY-IDEA,
+	check Minorprocess SUPPORT-PHRASE-TYPE,
+		if in-type,
+			select in-type-support
+		if other-type,
+			select other-type
+
+on (in-type-support)
+	preselect Minorrange preposition-in
+
+on (surrounding-phrase)
+	insert Minorprocess
+	lexify Minorprocess around,
+	preselect Minorrange preposition-of
+
+on (topographical-phrase)
+	preselect Minorrange preposition-in
+
+on (under-projection-external-phrase)
+	insert Minorprocess
+	lexify Minorprocess covered,
+	preselect Minorrange preposition-for
+
+system SPATIAL-MODALITY-MODIFICATION-TYPE
+	quantitative-distance-extent
+	accesibility
+	qualitative-distance-extent
+	reciprocal
+	spatial-perspective
+	no-modification
+
+when considering SPATIAL-MODALITY-MODIFICATION-TYPE
+	conceive Modification idea using Current MODIFICATION-IDEA,
+	check Current QUANTITATIVE-DISTANCE-EXTENT,
+		if yes,
+			determine Quantity name using Modification QUANTITY,
+			determine Unit name using Modification UNIT,
+			select quantitative-distance-extent
+		if no,
+			check Current ACCESSIBILITY,
+				if yes,
+					select accesibility
+				if no,
+					check Current QUALITATIVE-DISTANCE-EXTENT,
+						if yes,
+							determine Modification-Extent name using Modification QUALITATIVE-DISTANCE-EXTENT-NAME,
+							select qualitative-distance-extent
+						if no,
+							check Current RECIPROCAL,
+								if yes,
+									select reciprocal
+								if no,
+									check Current SPATIAL-PERSPECTIVE,
+										if yes,
+											select spatial-perspective
+										if no,
+											select no-modification
+
+on (quantitative-distance-extent)
+	insert Modification-Minorprocess
+	insert Quantity
+	insert Unit
+	order Modification-Minorprocess Quantity
+	order Quantity Unit
+	begin with Modification-Minorprocess
+	lexify Modification-Minorprocess by,
+
+on (accesibility)
+	insert Accessibility
+	begin with Accessibility
+	consider ACCESSIBILITY-LEVEL
+
+system ACCESSIBILITY-LEVEL
+	general-low
+	speaker-low
+	speaker-high
+
+when considering ACCESSIBILITY-LEVEL
+	check Current ACCESSIBILITY-LEVEL,
+		if general-low,
+			select general-low
+		if speaker-low,
+			select speaker-low
+		if speaker-high,
+			select speaker-high
+
+on (general-low)
+	lexify Accessibility general-there,
+
+on (speaker-low)
+	lexify Accessibility speaker-there,
+
+on (speaker-high)
+	lexify Accessibility speaker-here,
+
+on (qualitative-distance-extent)
+	insert Modification-Extent
+	order Modification-Extent Minorprocess
+
+on (reciprocal and proximal-phrase)
+	insert Reciprocal-pronoun
+	lexify Reciprocal-pronoun one,
+	order Minorprocess Reciprocal-pronoun
+	order Reciprocal-pronoun Minorrange
+	preselect Minorrange reciprocal-reference
+
+on (reciprocal and relative-non-projection-axial-phrase)
+	insert Reciprocal-pronoun
+	lexify Reciprocal-pronoun one,
+	order Reciprocal-pronoun Minorprocess
+	order Minorprocess Minorrange
+	preselect Minorrange reciprocal-reference
+
+on (spatial-perspective)
+	insert Spatial-Perspective-Preposition
+	insert Spatial-Perspective-Modality
+	lexify Spatial-Perspective-Preposition for,
+	lexify Spatial-Perspective-Modality out,
+	order Spatial-Perspective-Preposition Spatial-Perspective-Modality

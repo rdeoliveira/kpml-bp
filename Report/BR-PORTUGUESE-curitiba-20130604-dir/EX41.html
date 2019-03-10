@@ -1,0 +1,33 @@
+
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>Semantic specification for example: EX41</title>
+</head><P><font size=+2><B>EX41</B></font><p><P><PRE>
+(EXAMPLE
+     :NAME                   EX41
+     :GENERATEDFORM          "O edifício fica em a praça"
+     :GLOSS                  ( :ENGLISH "The building lies at the square")
+     :TARGETFORM             "O edifício fica em a praça"
+     :LOGICALFORM
+     (SPL / |space#SpatialLocating|
+          :|processInConfiguration|
+          (PIC / |Process|
+               :LEX BE-STABLE-3-S )
+
+          :|space#locatum|
+          (LOC / |SimpleThing|
+               :LEX BUILDING )
+
+          :|space#placement|
+          (PLC / |space#GeneralizedLocation|
+               :|space#relatum|
+               (REL / |SimpleThing|
+                    :LEX SQUARE )
+
+               :|space#hasSpatialModality|
+               (MOD / |space#Proximal|
+                    :LEX IN )
+               )
+          )
+     :SET-NAME               |curitiba|
+     )</PRE><P><font size=-1><I><A HREF="index.html">Return to index.</A></I></font>
+</body></html>
